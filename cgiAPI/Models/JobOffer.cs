@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using cgiAPI.Models;
 
-namespace cgi.Controllers
+namespace cgiAPI.Controllers
 {
     public class JobOffer
     {
@@ -21,7 +21,7 @@ namespace cgi.Controllers
         public List<User> ListUserAccepted { get; set; }
         public List<User> ListUserOffered { get; set; }
 
-        static private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mike\OneDrive\school\proftaak\cgi\CGIdatabase.mdf;Integrated Security = True; Connect Timeout = 30";
+        static private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mike\OneDrive\school\proftaak\project\cgiAPI\CGIdatabase.mdf;Integrated Security = True; Connect Timeout = 30";
         static private SqlConnection conn = new SqlConnection(connectionString);
 
         //Non-database object
@@ -52,10 +52,10 @@ namespace cgi.Controllers
             MinMonthsExperience = minMonthsExperience;
         }
 
-        static public bool AddJobOffer(User user, JobOffer jobOffer)
+        static public bool AddJobOffer(JobOffer jobOffer)
         {
-            using (SqlCommand command = new SqlCommand("INSERT INTO Vacancy (UserID, JobTypeID, Date_begin, Date_end, Description, MinMonthsExperience) " +
-                   "VALUES (@UserID, @JobTypeID, @Date_begin, @Date_end, @Description, @MinMonthsExperience)", conn))
+            using (SqlCommand command = new SqlCommand("INSERT INTO Vacancy (UserID, Job_TypeID, Date_begin, Date_end, Description, MinMonthsExperience) " +
+                   "VALUES (@UserID, @Job_TypeID, @Date_begin, @Date_end, @Description, @MinMonthsExperience)", conn))
             {
                 command.Parameters.AddWithValue("@UserID", user.UserID);
                 command.Parameters.AddWithValue("@JobTypeID", jobOffer.Job_Type);

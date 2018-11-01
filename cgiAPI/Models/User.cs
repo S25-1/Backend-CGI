@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using cgiAPI.Models;
 
-namespace cgi.Controllers
+namespace cgiAPI.Controllers
 {
     public abstract class User
     {
@@ -26,7 +26,7 @@ namespace cgi.Controllers
         public User(int userID, string userType, string name, string email, string password, Job_Type job_type, List<SkillType> listCompetences, List<Availability> availability)
         {
             UserID = userID;
-            UserType = userType;
+            UserTypeID = userTypeID;
             Name = name;
             Email = email;
             Password = password;

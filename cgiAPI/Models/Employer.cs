@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using cgiAPI.Models;
 
-namespace cgi.Controllers
+namespace cgiAPI.Controllers
 {
     public class Employer : User
     {
@@ -13,7 +13,7 @@ namespace cgi.Controllers
         public Employer(int userID, string userType, string name, string email, string password, Job_Type job_type, List<SkillType> listCompetences, List<Availability> availability) : base(userID, userType, name, email, password, job_type, listCompetences, availability)
         {
             UserID = userID;
-            UserType = userType;
+            UserTypeID = userTypeID;
             Name = name;
             Email = email;
             Password = password;
