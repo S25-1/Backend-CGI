@@ -16,7 +16,7 @@ namespace cgiAPI.Controllers
             Name = name;
             Email = email;
             Password = password;
-            Job = job;
+            JobID = jobID;
             ListCompetences = listCompetences;
             ListVacancies = new List<JobOffer>();
         }
