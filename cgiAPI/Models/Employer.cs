@@ -7,7 +7,7 @@ namespace cgiAPI.Controllers
 {
     public class Employer : User
     {
-        public List<JobOffer> ListVacancies { get; private set; }
+        public List<Vacancy> ListVacancies { get; private set; }
 
         public Employer(int userID, int userTypeID, string name, string email, string password, int jobID, List<SkillType> listCompetences) : base(userID, userTypeID, name, email, password, jobID, listCompetences)
         {
@@ -18,7 +18,7 @@ namespace cgiAPI.Controllers
             Password = password;
             JobID = jobID;
             ListCompetences = listCompetences;
-            ListVacancies = new List<JobOffer>();
+            ListVacancies = new List<Vacancy>();
         }
 
         //public void CreateVacancy(string name, string requiredJob, List<SkillType> reqCompetence, string description, DateTime beginDate, DateTime endDate)
@@ -27,7 +27,7 @@ namespace cgiAPI.Controllers
 
         //}
 
-        public void CreateVacancy(JobOffer jobOffer)
+        public void CreateVacancy(Vacancy jobOffer)
         {
             
         }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="32ad0eac3b15495fa998f23d80f257ff" Name="Diagram1">
+        <EntityTypeShape EntityType="CGIdatabaseModel.Job_Type" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CGIdatabaseModel.Skill" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CGIdatabaseModel.User" Width="1.5" PointX="3" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CGIdatabaseModel.User_Type" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CGIdatabaseModel.Vacancy" Width="1.5" PointX="5.25" PointY="3.25" IsExpanded="true" />
+        <AssociationConnector Association="CGIdatabaseModel.FK_User_ToTable_Job_Type" ManuallyRouted="false" />
+        <AssociationConnector Association="CGIdatabaseModel.FK_Vacancy_ToTable_Job_Type" ManuallyRouted="false" />
+        <AssociationConnector Association="CGIdatabaseModel.FK_User_ToTable_UserType" ManuallyRouted="false" />
+        <AssociationConnector Association="CGIdatabaseModel.FK_Vacancy_ToTable_UserID" ManuallyRouted="false" />
+        <AssociationConnector Association="CGIdatabaseModel.Requested_Skill" ManuallyRouted="false" />
+        <AssociationConnector Association="CGIdatabaseModel.User_Skill_Link" ManuallyRouted="false" />
+        <AssociationConnector Association="CGIdatabaseModel.User_Vacancy_Link" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
