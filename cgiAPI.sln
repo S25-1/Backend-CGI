@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2048
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cgiAPI", "cgiAPI\cgiAPI.csproj", "{40998F1D-07F1-4CF4-BA9E-217C0482970B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{40998F1D-07F1-4CF4-BA9E-217C0482970B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40998F1D-07F1-4CF4-BA9E-217C0482970B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40998F1D-07F1-4CF4-BA9E-217C0482970B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40998F1D-07F1-4CF4-BA9E-217C0482970B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BA54AA68-471B-4CE5-80D6-7F5E8EEC91F8}
+	EndGlobalSection
+EndGlobal
