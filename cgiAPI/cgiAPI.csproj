@@ -191,6 +191,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Employer.cs" />
+    <Compile Include="Models\VacancyTest.cs" />
     <Compile Include="Models\Vacancy.cs" />
     <Compile Include="Models\SkillType.cs" />
     <Compile Include="Models\User.cs" />

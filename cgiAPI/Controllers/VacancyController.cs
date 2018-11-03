@@ -22,11 +22,10 @@ namespace cgiAPI.Controllers
         }
 
         // POST: api/Vacancy
-        public void Post([FromBody]Employer employer)
+        public void Post([FromBody]Vacancy vacancy)
         {
-            Employer userTest = new Employer(1, 1, "name", "test@hotmail.com", "password", 1, new List<SkillType>() { new SkillType(1, "programmer") });
-            Vacancy Vacancy = new Vacancy(userID, name, 1, new List<SkillType>(), description, beginDate, endDate, 1);
-            return Vacancy.AddVacancy(Vacancy);
+            //Employer userTest = new Employer(1, 1, "name", "test@hotmail.com", "password", 1, new List<SkillType>() { new SkillType(1, "programmer") });
+            Vacancy.AddVacancy(vacancy);
         }
 
         // PUT: api/Vacancy/5
