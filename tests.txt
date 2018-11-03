@@ -5,7 +5,11 @@
 "reqCompetence":
 [{
 "skillTypeID":"1",
-"skillTypeName":"programmeur"
+"skillTypeName":"C#"
+},
+{
+"skillTypeID":"2",
+"skillTypeName":"Java"
 }],	
 "description":"goed betaalde baan",
 "dateBegin":"2018-10-10",

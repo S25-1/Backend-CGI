@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -16,9 +17,16 @@ namespace cgiAPI.Controllers
         }
 
         // GET: api/Vacancy/5
-        public string Get(int id)
+        public ArrayList Get(string command)
         {
-            return "value";
+            if (command == "getVacancyList")
+            {
+                return Vacancy.GetListVacancy();
+            }
+            else
+            {
+                return new ArrayList();
+            }
         }
 
         // POST: api/Vacancy
