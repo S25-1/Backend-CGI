@@ -15,8 +15,8 @@ namespace cgiAPI.Controllers
         public int RequiredJob { get; set; }
         public List<SkillType> ReqCompetence { get; set; }
         public string Description { get; set; }
-        public string DateBegin { get; set; }
-        public string DateEnd { get; set; }
+        public DateTime DateBegin { get; set; }
+        public DateTime DateEnd { get; set; }
         public int MinMonthsExperience { get; set; }
         //public List<User> ListUserAccepted { get; set; }
         //public List<User> ListUserOffered { get; set; }
