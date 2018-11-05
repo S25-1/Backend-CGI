@@ -6,66 +6,56 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace cgiAPI.Controllers
+namespace cgiAPI.Models
 {
     public class Vacancy
     {
-
         public int VacancyID { get; set; }
-        //public Employer VacancyOwner { get; set; }
-
         public int UserID { get; set; }
-    
         public string Name { get; set; }
-    
-        public int RequiredJob { get; set; }
- 
-        public List<SkillType> ReqCompetence { get; set; }
-      
+        public Job_Type Job { get; set; }
+        public List<Skill> ReqCompetence { get; set; }
         public string Description { get; set; }
-     
-        public DateTime DateBegin { get; set; }
-   
-        public DateTime DateEnd { get; set; }
-     
-        public int MinMonthsExperience { get; set; }
-        //public List<User> ListUserAccepted { get; set; }
-        //public List<User> ListUserOffered { get; set; }
+        public DateTime Date_begin { get; set; }
+        public DateTime Date_end { get; set; }
+        public int MinExperience { get; set; }
+        public List<AcceptedUser> AcceptedUserList { get; set; }
 
-        static private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Gebruiker\Desktop\cgiAPI\CGIdatabase.mdf;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=true";
+        static private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mike\OneDrive\school\proftaak\project\cgiAPI\CGIdatabase.mdf;Integrated Security=True;Connect Timeout=30";
         static private SqlConnection conn = new SqlConnection(connectionString);
 
         //Database object
         [JsonConstructor]
-        public Vacancy(int vacancyID, int userID, string name, int requiredJob, List<SkillType> reqCompetence, string description, DateTime dateBegin, DateTime dateEnd, int minMonthsExperience)
+        public Vacancy(int vacancyID, int userID, string name, Job_Type job, List<Skill> reqCompetence, string description, DateTime date_begin, DateTime date_end, int minExperience, List<AcceptedUser> acceptedUserList)
         {
             VacancyID = vacancyID;
             UserID = userID;
             Name = name;
-            RequiredJob = requiredJob;
+            Job = job;
             ReqCompetence = reqCompetence;
             Description = description;
-            DateBegin = dateBegin;
-            DateEnd = dateEnd;
-            MinMonthsExperience = minMonthsExperience;
+            Date_begin = date_begin;
+            Date_end = date_end;
+            MinExperience = minExperience;
+            AcceptedUserList = acceptedUserList;
         }
 
 
-        //Non-database object for api
-        public Vacancy(int userID, string name, int requiredJob, List<SkillType> reqCompetence, string description, string dateBegin, string dateEnd, int minMonthsExperience)
+        //Non-database object
+        public Vacancy(int userID, string name, Job_Type job, List<Skill> reqCompetence, string description, DateTime date_begin, DateTime date_end, int minExperience, List<AcceptedUser> acceptedUserList)
         {
             VacancyID = -1;
             UserID = userID;
             Name = name;
-            RequiredJob = requiredJob;
+            Job = job;
             ReqCompetence = reqCompetence;
             Description = description;
-            DateBegin = DateTime.Parse(dateBegin);
-            DateEnd = DateTime.Parse(dateEnd);
-            MinMonthsExperience = minMonthsExperience;
+            Date_begin = date_begin;
+            Date_end = date_end;
+            MinExperience = minExperience;
+            AcceptedUserList = acceptedUserList;
         }
 
-        //Database object
 
         //public Vacancy(int vacancyID, int userID, string name, int requiredJob, List<SkillType> reqCompetence, DateTime dateBegin, DateTime dateEnd, string description, int minMonthsExperience)
         //{
@@ -138,7 +128,7 @@ namespace cgiAPI.Controllers
                         "INSERT INTO Vacancy (UserID, Job_TypeID, Date_begin, Date_end, Description, MinMonthsExperience, Name) " + "VALUES (@UserID, @Job_TypeID, @Date_begin, @Date_end, @Description, @MinMonthsExperience, @Name)";
                     command.ExecuteNonQuery();
 
-                    foreach (SkillType skill in Vacancy.ReqCompetence)
+                    foreach (Skill skill in Vacancy.ReqCompetence)
                     {
                         command.CommandText =
                        "INSERT INTO Requested_Skill (Skill_ID, VacancyID) SELECT @SkillTypeID, VacancyID FROM Vacancy WHERE UserID=@UserID AND Job_TypeID=@Job_TypeID AND Date_begin=@Date_begin AND Date_end=@Date_end AND Description=@Description AND MinMonthsExperience=@MinMonthsExperience AND Name=@Name";
@@ -201,7 +191,7 @@ namespace cgiAPI.Controllers
                         {
                             while (reader.Read())
                             {
-                                Vacancy vacancy = new Vacancy(reader.GetInt32(0),reader.GetInt32(1), reader.GetString(7), reader.GetInt32(2), new List<SkillType>(), reader.GetString(5), reader.GetDateTime(3), reader.GetDateTime(4), reader.GetInt32(6));
+                                Vacancy vacancy = new Vacancy(reader.GetInt32(0),reader.GetInt32(1), reader.GetString(7), reader.GetInt32(2), new List<Skill>(), reader.GetString(5), reader.GetDateTime(3), reader.GetDateTime(4), reader.GetInt32(6));
                                 vacancyList.Add(vacancy);
                             }
                         }
@@ -209,7 +199,7 @@ namespace cgiAPI.Controllers
 
                     foreach (Vacancy v in vacancyList)
                     {
-                        v.ReqCompetence = new List<SkillType>();
+                        v.ReqCompetence = new List<Skill>();
                         command.CommandText = "SELECT Skill.Skill_ID, Skill.Skill_Name FROM Requested_Skill, Skill WHERE Requested_Skill.Skill_ID = Skill.Skill_ID AND Requested_Skill.VacancyID = @VacancyID";
                         command.Parameters.AddWithValue("@VacancyID", v.VacancyID);
                         using (SqlDataReader reader = command.ExecuteReader())
@@ -218,7 +208,7 @@ namespace cgiAPI.Controllers
                             {
                                 while (reader.Read())
                                 {
-                                    SkillType skill = new SkillType(reader.GetInt32(0), reader.GetString(1));
+                                    Skill skill = new Skill(reader.GetInt32(0), reader.GetString(1));
                                     v.ReqCompetence.Add(skill);
                                 }
                             }

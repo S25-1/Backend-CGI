@@ -185,15 +185,19 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Vacancy2Controller.cs" />
-    <Compile Include="Controllers\Vacancy3Controller.cs" />
     <Compile Include="Controllers\VacancyController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AcceptedUser.cs" />
+    <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\Availability.cs" />
+    <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\Employer.cs" />
+    <Compile Include="Models\Job_Type.cs" />
     <Compile Include="Models\VacancyTest.cs" />
     <Compile Include="Models\Vacancy.cs" />
-    <Compile Include="Models\SkillType.cs" />
+    <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -283,12 +287,6 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CGIdatabase\CGIdatabase.csproj">
-      <Project>{2b8bbcfe-81a7-4519-9aa5-d4a0f15538fa}</Project>
-      <Name>CGIdatabase</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

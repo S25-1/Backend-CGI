@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace cgiAPI.Controllers
+namespace cgiAPI.Models
 {
     public class Employer : User
     {
         public List<Vacancy> ListVacancies { get; private set; }
 
-        public Employer(int userID, int userTypeID, string name, string email, string password, int jobID, List<SkillType> listCompetences) : base(userID, userTypeID, name, email, password, jobID, listCompetences)
+        public Employer(int userID, int userTypeID, string name, string email, string password, int jobID, List<Skill> listCompetences) : base(userID, userTypeID, name, email, password, jobID, listCompetences)
         {
             UserID = userID;
             UserTypeID = userTypeID;
