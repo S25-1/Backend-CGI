@@ -41,7 +41,7 @@ namespace cgiAPI.Models
         }
 
         //Non-database object
-        public Vacancy(int userID, string name, Job_Type job, List<Skill> skillList, string description, DateTime date_begin, DateTime date_end, int minExperience, List<AcceptedUser> acceptedUserList)
+        public Vacancy(int userID, string name, Job_Type job, List<Skill> skillList, string description, DateTime date_begin, DateTime date_end, int minExperience)
         {
             VacancyID = -1;
             UserID = userID;
@@ -52,7 +52,7 @@ namespace cgiAPI.Models
             Date_begin = date_begin;
             Date_end = date_end;
             MinExperience = minExperience;
-            AcceptedUserList = acceptedUserList;
+            AcceptedUserList = new List<AcceptedUser>();
         }
 
         public static void AddVacancy(Vacancy Vacancy)
@@ -75,7 +75,7 @@ namespace cgiAPI.Models
                 try
                 {
                     command.Parameters.AddWithValue("@UserID", Vacancy.UserID);
-                    command.Parameters.AddWithValue("@Job_TypeID", Vacancy.Name);
+                    command.Parameters.AddWithValue("@Job_TypeID", Vacancy.Job.Job_typeID);
                     command.Parameters.AddWithValue("@Date_begin", Vacancy.Date_begin);
                     command.Parameters.AddWithValue("@Date_end", Vacancy.Date_end);
                     command.Parameters.AddWithValue("@Description", Vacancy.Description);
@@ -89,7 +89,7 @@ namespace cgiAPI.Models
                     foreach (Skill skill in Vacancy.SkillList)
                     {
                         command.CommandText =
-                       "INSERT INTO Requested_Skill (Skill_ID, VacancyID) SELECT @SkillTypeID, VacancyID FROM Vacancy WHERE UserID=@UserID AND Job_TypeID=@Job_TypeID AND Date_begin=@Date_begin AND Date_end=@Date_end AND Description=@Description AND MinMonthsExperience=@MinMonthsExperience AND Name=@Name";
+                       "INSERT INTO Skill_Vacancy (Skill_ID, VacancyID) SELECT @SkillTypeID, VacancyID FROM Vacancy WHERE UserID=@UserID AND Job_TypeID=@Job_TypeID AND Date_begin=@Date_begin AND Date_end=@Date_end AND Description=@Description AND MinMonthsExperience=@MinMonthsExperience AND Name=@Name";
                         command.Parameters.AddWithValue("@SkillTypeID", skill.SkillTypeID);
                         command.ExecuteNonQuery();
                         command.Parameters.RemoveAt("@SkillTypeID");
