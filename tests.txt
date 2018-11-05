@@ -1,6 +1,6 @@
 {
 "userID":"1",
-"name":"opzoek!",
+"name":"Wij zoeken naar programmeurs",
 "requiredJob":"1",
 "reqCompetence":
 [{
@@ -11,7 +11,7 @@
 "skillTypeID":"2",
 "skillTypeName":"Java"
 }],	
-"description":"een betaalde baan",
+"description":"goed betaalde baan",
 "dateBegin":"2018-10-10",
 "dateEnd":"2018-10-11",
 "minMonthsExperience":"1"
