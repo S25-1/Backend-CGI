@@ -161,7 +161,7 @@ namespace cgiAPI.Models
                     {
                         v.SkillList = new List<Skill>();
 
-                        command.CommandText = "SELECT Skill.Skill_ID, Skill.Skill_Name FROM Requested_Skill, Skill WHERE Requested_Skill.Skill_ID = Skill.Skill_ID AND Requested_Skill.VacancyID = @VacancyID";
+                        command.CommandText = "SELECT Skill.Skill_ID, Skill.Skill_Name FROM Skill_Vacancy, Skill WHERE Skill_Vacancy.Skill_ID = Skill.Skill_ID AND Skill_Vacancy.VacancyID = @VacancyID";
                         command.Parameters.AddWithValue("@VacancyID", v.VacancyID);
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
@@ -177,7 +177,7 @@ namespace cgiAPI.Models
                         }
 
                         command.Parameters.AddWithValue("@Job_TypeID", v.Job.Job_typeID);
-                        command.CommandText = "SELECT * FROM Job_Type WHERE Job_TypeID = @JobType_ID";
+                        command.CommandText = "SELECT * FROM Job_Type WHERE Job_TypeID = @Job_TypeID";
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             if (reader.HasRows)
