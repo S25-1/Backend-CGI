@@ -25,7 +25,7 @@ namespace cgiAPI.Controllers
             }
             else
             {
-                return new ArrayList();
+                return null;
             }
         }
 
