@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cgiAPI", "cgiAPI\cgiAPI.csproj", "{40998F1D-07F1-4CF4-BA9E-217C0482970B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGIdatabase", "CGIdatabase\CGIdatabase.csproj", "{2B8BBCFE-81A7-4519-9AA5-D4A0F15538FA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{40998F1D-07F1-4CF4-BA9E-217C0482970B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40998F1D-07F1-4CF4-BA9E-217C0482970B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40998F1D-07F1-4CF4-BA9E-217C0482970B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2B8BBCFE-81A7-4519-9AA5-D4A0F15538FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B8BBCFE-81A7-4519-9AA5-D4A0F15538FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B8BBCFE-81A7-4519-9AA5-D4A0F15538FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B8BBCFE-81A7-4519-9AA5-D4A0F15538FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

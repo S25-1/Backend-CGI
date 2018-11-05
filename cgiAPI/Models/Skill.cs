@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace cgiAPI.Controllers
+namespace cgiAPI.Models
 {
-    public class SkillType
+    public class Skill
     {
         public int SkillTypeID { get; set; }
         public string SkillTypeName { get; set; }
 
-        public SkillType(int skillTypeID, string skillTypeName)
+        public Skill(int skillTypeID, string skillTypeName)
         {
             SkillTypeID = skillTypeID;
             SkillTypeName = skillTypeName;

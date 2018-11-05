@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-
+using cgiAPI.Models;
 namespace cgiAPI.Controllers
 {
     public class VacancyController : ApiController
