@@ -2,34 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using cgiAPI.Models;
 
 namespace cgiAPI.Controllers
 {
-    public class User
+    public abstract class User
     {
         public int UserID { get; protected set; }
-        public int UserTypeID { get; protected set; }
-        //public Branch Branch { get; set; }
+        public string UserType { get; protected set; }
+        public Branch Branch { get; set; }
         public string Name { get; protected set; }
         public string Email { get; protected set; }
         public string Password { get; protected set; }
-        //protected DateTime DateOfBirth { get; set; }
-        //protected string PhoneNumber { get; set; }
-        //protected float HourlyWage { get; set; }
-        //protected Address Address { get; set; }
-        public int JobID { get; protected set; }
+        public DateTime DateOfBirth { get; set; }
+        public string PhoneNumber { get; set; }
+        public float HourlyWage { get; set; }
+        public Adress Address { get; set; }
+        public Job_Type Job_Type { get; protected set; }
         public List<SkillType> ListCompetences { get; protected set; }
         //protected List<Availability> Availability { get; set; }
+        public List<Availability> Availability  { get; set; }
 
-        public User(int userID, int userTypeID, string name, string email, string password, int jobID, List<SkillType> listCompetences)
+        public User(int userID, string userType, string name, string email, string password, Job_Type job_type, List<SkillType> listCompetences, List<Availability> availability)
         {
             UserID = userID;
             UserTypeID = userTypeID;
             Name = name;
             Email = email;
             Password = password;
-            JobID = jobID;
+            Job_Type = job_type;
             ListCompetences = listCompetences;
+            Availability = availability;
         }
     }
 }
