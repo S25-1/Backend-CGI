@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -15,7 +16,20 @@ namespace cgiAPI.Controllers
         // GET: api/Vacancy
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(@"Server = studmysql01.fhict.local; Uid = dbi387318; Database = dbi387318; Pwd = 1234qwerty;"))
+                {
+                    conn.Open();
+                }
+                return new string[] { "success" };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message, "Invalid Connection String");
+                return new string[] { "rip" };
+            }
+            
         }
 
         // GET: api/Vacancy/5
@@ -37,7 +51,7 @@ namespace cgiAPI.Controllers
         public void Post([FromBody]Vacancy vacancy)
         {
             //Employer userTest = new Employer(1, 1, "name", "test@hotmail.com", "password", 1, new List<SkillType>() { new SkillType(1, "programmer") });
-            Vacancy.AddVacancy(vacancy);
+            //Vacancy.AddVacancy(vacancy);
         }
 
         // PUT: api/Vacancy/5
