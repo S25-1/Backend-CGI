@@ -6,6 +6,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using cgiAPI.Models;
+using Newtonsoft.Json;
+
 namespace cgiAPI.Controllers
 {
     public class VacancyController : ApiController
@@ -28,6 +30,8 @@ namespace cgiAPI.Controllers
                 return new ArrayList();
             }
         }
+
+
 
         // POST: api/Vacancy
         public void Post([FromBody]Vacancy vacancy)
