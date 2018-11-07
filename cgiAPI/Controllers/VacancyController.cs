@@ -20,7 +20,7 @@ namespace cgiAPI.Controllers
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mike\OneDrive\school\mike_backend\CGIdatabase.mdf;Integrated Security=True;Connect Timeout=30"))
+                using (SqlConnection conn = new SqlConnection(@"Server=tcp:cgi-matchup.database.windows.net,1433;Initial Catalog=MatchUp;Persist Security Info=False;User ID=cgi;Password=Fontys12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
                 {
                     conn.Open();
                 }
@@ -30,8 +30,7 @@ namespace cgiAPI.Controllers
             {
                 Console.WriteLine(ex.Message, "Invalid Connection String");
                 return new string[] { "rip" };
-            }
-            
+            }           
         }
 
         [Route("api/vacancy/GetVacancyList")]
@@ -49,14 +48,14 @@ namespace cgiAPI.Controllers
         }
 
         // POST: api/Vacancy
-        [Route("api/vacancy/AddVacancy")]
+        [Route("api/vacancy/add")]
         [HttpPost]
         public void AddVacancy([FromBody]Vacancy vacancy)
         {
             Vacancy.AddVacancy(vacancy);
         }
 
-        [Route("api/vacancy/AddAcceptedUser")]
+        [Route("api/vacancy/addaccepteduser")]
         [HttpPost]
         public void AddAcceptedUser([FromBody]AcceptedUser user)
         {
