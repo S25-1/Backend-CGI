@@ -20,7 +20,7 @@ namespace cgiAPI.Controllers
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(@"Server = studmysql01.fhict.local; Uid = dbi387318; Database = dbi387318; Pwd = 1234qwerty;"))
+                using (SqlConnection conn = new SqlConnection(@"Server=tcp:cgi-matchup.database.windows.net,1433;Initial Catalog=MatchUp;Persist Security Info=False;User ID=cgi;Password=Fontys12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
                 {
                     conn.Open();
                 }
@@ -30,8 +30,7 @@ namespace cgiAPI.Controllers
             {
                 Console.WriteLine(ex.Message, "Invalid Connection String");
                 return new string[] { "rip" };
-            }
-            
+            }           
         }
 
         // GET: api/Vacancy/5
