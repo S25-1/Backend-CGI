@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,6 +19,7 @@ namespace cgiAPI.Models
             Accepted = false;
         }
 
+        [JsonConstructor]
         public AcceptedUser(int userID, int vacancyID, bool accepted)
         {
             UserID = userID;
