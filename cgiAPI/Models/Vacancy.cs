@@ -59,73 +59,8 @@ namespace cgiAPI.Models
             AcceptedUserList = new List<AcceptedUser>();
         }
 
-        public static void AddVacancy(Vacancy Vacancy)
-        {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
 
-                SqlCommand command = connection.CreateCommand();
-                SqlTransaction transaction;
-
-                // Start a local transaction.
-                transaction = connection.BeginTransaction("SampleTransaction");
-
-                // Must assign both transaction object and connection
-                // to Command object for a pending local transaction
-                command.Connection = connection;
-                command.Transaction = transaction;
-
-                try
-                {
-                    command.Parameters.AddWithValue("@UserID", Vacancy.UserID);
-                    command.Parameters.AddWithValue("@Job_TypeID", Vacancy.Job.Job_typeID);
-                    command.Parameters.AddWithValue("@Date_begin", Vacancy.Date_begin);
-                    command.Parameters.AddWithValue("@Date_end", Vacancy.Date_end);
-                    command.Parameters.AddWithValue("@Description", Vacancy.Description);
-                    command.Parameters.AddWithValue("@MinMonthsExperience", Vacancy.MinExperience);
-                    command.Parameters.AddWithValue("@Name", Vacancy.Name);
-
-                    command.CommandText =
-                        "INSERT INTO Vacancy (UserID, Job_TypeID, Date_begin, Date_end, Description, MinMonthsExperience, Name) " + "VALUES (@UserID, @Job_TypeID, @Date_begin, @Date_end, @Description, @MinMonthsExperience, @Name)";
-                    command.ExecuteNonQuery();
-
-                    foreach (Skill skill in Vacancy.SkillList)
-                    {
-                        command.CommandText =
-                       "INSERT INTO Skill_Vacancy (Skill_ID, VacancyID) SELECT @SkillTypeID, VacancyID FROM Vacancy WHERE UserID=@UserID AND Job_TypeID=@Job_TypeID AND Date_begin=@Date_begin AND Date_end=@Date_end AND Description=@Description AND MinMonthsExperience=@MinMonthsExperience AND Name=@Name";
-                        command.Parameters.AddWithValue("@SkillTypeID", skill.SkillTypeID);
-                        command.ExecuteNonQuery();
-                        command.Parameters.RemoveAt("@SkillTypeID");
-                    }
-
-                    // Attempt to commit the transaction.
-                    transaction.Commit();
-                    Console.WriteLine("Both records are written to database.");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
-                    Console.WriteLine("  Message: {0}", ex.Message);
-
-                    // Attempt to roll back the transaction.
-                    try
-                    {
-                        transaction.Rollback();
-                    }
-                    catch (Exception ex2)
-                    {
-                        // This catch block will handle any errors that may have occurred
-                        // on the server that would cause the rollback to fail, such as
-                        // a closed connection.
-                        Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
-                        Console.WriteLine("  Message: {0}", ex2.Message);
-                    }
-                }
-            }
-        }
-
-        public static void AddAcceptedUser(AcceptedUser user)
+        public static bool AddAcceptedUser(AcceptedUser user)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -154,6 +89,7 @@ namespace cgiAPI.Models
                     // Attempt to commit the transaction.
                     transaction.Commit();
                     Console.WriteLine("Both records are written to database.");
+                    return true;
                 }
                 catch (Exception ex)
                 {
@@ -173,6 +109,7 @@ namespace cgiAPI.Models
                         Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
                         Console.WriteLine("  Message: {0}", ex2.Message);
                     }
+                return false;
                 }
             }
         }

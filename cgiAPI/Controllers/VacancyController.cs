@@ -24,12 +24,12 @@ namespace cgiAPI.Controllers
                 {
                     conn.Open();
                 }
-                return new string[] { "success" };
+                return new string[] { "database connection works!" };
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message, "Invalid Connection String");
-                return new string[] { "rip" };
+                return new string[] { "database connection failed!" };
             }           
         }
 
@@ -50,16 +50,26 @@ namespace cgiAPI.Controllers
         // POST: api/Vacancy
         [Route("api/vacancy/add")]
         [HttpPost]
-        public void AddVacancy([FromBody]Vacancy vacancy)
+        public HttpResponseMessage AddVacancy([FromBody]VacancyAPI vacancy)
         {
-            Vacancy.AddVacancy(vacancy);
+            HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.OK);
+            message.ReasonPhrase = VacancyAPI.AddVacancy(vacancy);
+
+            return message;
         }
 
         [Route("api/vacancy/addaccepteduser")]
         [HttpPost]
-        public void AddAcceptedUser([FromBody]AcceptedUser user)
+        public HttpResponseMessage AddAcceptedUser([FromBody]AcceptedUser user)
         {
-            Vacancy.AddAcceptedUser(user);  
+            if (Vacancy.AddAcceptedUser(user))
+            {
+                return new HttpResponseMessage(HttpStatusCode.Created);
+            }
+            else
+            {
+                return new HttpResponseMessage(HttpStatusCode.Conflict);
+            }
         }
 
         //[HttpPost]

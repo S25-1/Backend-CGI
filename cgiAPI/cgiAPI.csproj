@@ -204,6 +204,7 @@
     <Compile Include="Models\Vacancy.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\VacancyAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
