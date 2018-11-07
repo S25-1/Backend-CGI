@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http.Cors;
 
 namespace cgiAPI.Models
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class Vacancy
     {
         public int VacancyID { get; set; }
@@ -260,7 +262,7 @@ namespace cgiAPI.Models
 
                 try
                 {
-                    command.CommandText = "SELECT * FROM Vacancy";
+                    command.CommandText = "SELECT * FROM dbo.Vacancy";
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.HasRows)
