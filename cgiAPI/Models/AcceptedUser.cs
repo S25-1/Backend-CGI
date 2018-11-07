@@ -12,6 +12,7 @@ namespace cgiAPI.Models
         public int VacancyID { get; set; }
         public bool Accepted { get; set; }
 
+        [JsonConstructor]
         public AcceptedUser(int userID, int vacancyID)
         {
             UserID = userID;
@@ -19,7 +20,7 @@ namespace cgiAPI.Models
             Accepted = false;
         }
 
-        [JsonConstructor]
+        
         public AcceptedUser(int userID, int vacancyID, bool accepted)
         {
             UserID = userID;
