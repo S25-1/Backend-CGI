@@ -21,6 +21,7 @@ namespace cgiAPI.Models
         public int MinExperience { get; set; }
         public List<AcceptedUser> AcceptedUserList { get; set; }
         static private string connectionString = @"Server=cgi-matchup.database.windows.net;Database=MatchUp;User ID = cgi; Password=Fontys12345;Trusted_Connection=False;";
+        //static private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mike\OneDrive\school\mike_backend\CGIdatabase.mdf;Integrated Security=True;Connect Timeout=30";
         static private SqlConnection conn = new SqlConnection(connectionString);
 
         [JsonConstructor]
@@ -118,6 +119,122 @@ namespace cgiAPI.Models
                         Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
                         Console.WriteLine("  Message: {0}", ex2.Message);
                     }
+                }
+            }
+        }
+
+        public static void AddAcceptedUser(AcceptedUser user)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+
+                // Start a local transaction.
+                transaction = connection.BeginTransaction("SampleTransaction");
+
+                // Must assign both transaction object and connection
+                // to Command object for a pending local transaction
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.Parameters.AddWithValue("@VacancyID", user.VacancyID);
+                    command.Parameters.AddWithValue("@UserID", user.UserID);
+                    command.Parameters.AddWithValue("@Accepted", user.Accepted);
+                    command.CommandText =
+                        "INSERT INTO AcceptedUser (UserID, VacancyID, Accepted) " + "VALUES (@VacancyID, @UserID, @Accepted)";
+                    command.ExecuteNonQuery();
+
+                    // Attempt to commit the transaction.
+                    transaction.Commit();
+                    Console.WriteLine("Both records are written to database.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    // Attempt to roll back the transaction.
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+                        // This catch block will handle any errors that may have occurred
+                        // on the server that would cause the rollback to fail, such as
+                        // a closed connection.
+                        Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+                        Console.WriteLine("  Message: {0}", ex2.Message);
+                    }
+                }
+            }
+        }
+
+        public static ArrayList GetListAcceptedUser()
+        {
+            ArrayList acceptedUserList = new ArrayList();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+
+                // Start a local transaction.
+                transaction = connection.BeginTransaction("SampleTransaction");
+
+                // Must assign both transaction object and connection
+                // to Command object for a pending local transaction
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = "SELECT * FROM AcceptedUser";
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                AcceptedUser acceptedUser = new AcceptedUser(reader.GetInt32(0), reader.GetInt32(1), reader.GetBoolean(2));
+                                acceptedUserList.Add(acceptedUser);
+                            }
+                        }
+                    }
+                    // Attempt to commit the transaction.
+                    transaction.Commit();
+
+                    Console.WriteLine("Both records are written to database.");
+
+                    return acceptedUserList;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    // Attempt to roll back the transaction.
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+                        // This catch block will handle any errors that may have occurred
+                        // on the server that would cause the rollback to fail, such as
+                        // a closed connection.
+                        Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+                        Console.WriteLine("  Message: {0}", ex2.Message);
+                    }
+                    return acceptedUserList;
                 }
             }
         }

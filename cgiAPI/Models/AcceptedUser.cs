@@ -11,6 +11,13 @@ namespace cgiAPI.Models
         public int VacancyID { get; set; }
         public bool Accepted { get; set; }
 
+        public AcceptedUser(int userID, int vacancyID)
+        {
+            UserID = userID;
+            VacancyID = vacancyID;
+            Accepted = false;
+        }
+
         public AcceptedUser(int userID, int vacancyID, bool accepted)
         {
             UserID = userID;

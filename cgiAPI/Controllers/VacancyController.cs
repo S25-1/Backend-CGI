@@ -20,7 +20,7 @@ namespace cgiAPI.Controllers
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(@"Server = studmysql01.fhict.local; Uid = dbi387318; Database = dbi387318; Pwd = 1234qwerty;"))
+                using (SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mike\OneDrive\school\mike_backend\CGIdatabase.mdf;Integrated Security=True;Connect Timeout=30"))
                 {
                     conn.Open();
                 }
@@ -34,27 +34,41 @@ namespace cgiAPI.Controllers
             
         }
 
-        // GET: api/Vacancy/5
-        public ArrayList Get(string command)
+        [Route("api/vacancy/GetVacancyList")]
+        [HttpGet]
+        public ArrayList GetVacancyList()
         {
-            if (command == "getVacancyList")
-            {
-                return Vacancy.GetListVacancy();
-            }
-            else
-            {
-                return new ArrayList();
-            }
+            return Vacancy.GetListVacancy();
         }
 
-
+        [Route("api/vacancy/GetAcceptedUserList")]
+        [HttpGet]
+        public ArrayList GetAcceptedUserList()
+        {
+            return Vacancy.GetListAcceptedUser();
+        }
 
         // POST: api/Vacancy
-        public void Post([FromBody]Vacancy vacancy)
+        [Route("api/vacancy/AddVacancy")]
+        [HttpPost]
+        public void AddVacancy([FromBody]Vacancy vacancy)
         {
-            //Employer userTest = new Employer(1, 1, "name", "test@hotmail.com", "password", 1, new List<SkillType>() { new SkillType(1, "programmer") });
-            //Vacancy.AddVacancy(vacancy);
+            Vacancy.AddVacancy(vacancy);
         }
+
+        [Route("api/vacancy/AddAcceptedUser")]
+        [HttpPost]
+        public void AddAcceptedUser([FromBody]AcceptedUser user)
+        {
+            Vacancy.AddAcceptedUser(user);  
+        }
+
+        //[HttpPost]
+        //public void AddAcceptedUser([FromBody]int id)
+        //{
+        //    string kek = "success";
+        //}
+
 
         // PUT: api/Vacancy/5
         public void Put(int id, [FromBody]string value)
