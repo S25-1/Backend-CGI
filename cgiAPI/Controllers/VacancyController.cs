@@ -52,8 +52,16 @@ namespace cgiAPI.Controllers
         [HttpPost]
         public HttpResponseMessage AddVacancy([FromBody]VacancyAPI vacancy)
         {
-            HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.OK);
-            message.ReasonPhrase = VacancyAPI.AddVacancy(vacancy);
+            HttpResponseMessage message = new HttpResponseMessage();
+            if (vacancy == null)
+            {
+                message.Content = new StringContent(VacancyAPI.AddVacancy(vacancy));
+            }
+            else
+            {
+                message.Content = new StringContent("object is null, please check parameters");
+                message.ReasonPhrase = "check the json format or the right parameters";
+            }
 
             return message;
         }
