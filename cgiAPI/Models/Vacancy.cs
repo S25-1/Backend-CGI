@@ -178,6 +178,8 @@ namespace cgiAPI.Models
             }
         }
 
+
+
         public static ArrayList GetListVacancy()
         {
             ArrayList vacancyList = new ArrayList();
@@ -212,8 +214,6 @@ namespace cgiAPI.Models
                         }
                     }
 
-
-
                     foreach (Vacancy v in vacancyList)
                     {
                         v.SkillList = new List<Skill>();
@@ -247,9 +247,23 @@ namespace cgiAPI.Models
                             }
                             command.Parameters.RemoveAt("@Job_TypeID");
                         }
+
+                        command.CommandText = "SELECT * FROM dbo.AcceptedUser WHERE VacancyID = @VacancyID";
+                        command.Parameters.AddWithValue("@VacancyID", v.VacancyID);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    v.AcceptedUserList.Add(new AcceptedUser(reader.GetInt32(0), reader.GetInt32(1), reader.GetBoolean(2)));
+                                }
+                            }
+                            command.Parameters.RemoveAt("@VacancyID");
+                        }
                     }
 
-
+                    
                     // Attempt to commit the transaction.
                     transaction.Commit();
 

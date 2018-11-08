@@ -20,7 +20,6 @@ namespace cgiAPI.Models
             Accepted = false;
         }
 
-        
         public AcceptedUser(int userID, int vacancyID, bool accepted)
         {
             UserID = userID;
