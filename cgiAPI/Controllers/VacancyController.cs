@@ -1,88 +1,107 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using CGIdatabase;
+using cgiAPI.Models;
+using Newtonsoft.Json;
+using System.Web.Http.Cors;
 
 namespace cgiAPI.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class VacancyController : ApiController
     {
-
-        //public IEnumerable<Vacancy> Get()
+        //[Route("api/vacancy/test")]
+        //[HttpGet]
+        //public IEnumerable<int> testfunctie()
         //{
-        //    using (CGIdatabaseEntities entities = new CGIdatabaseEntities())
-        //    {
-        //        //return entities.Vacancies.ToList();
-        //    }
+        //    return new int[] { 5 };
         //}
 
-        //public Vacancy Get(int id)
-        //{
-        //    using (CGIdatabaseEntities entities = new CGIdatabaseEntities())
-        //    {
-        //        //return entities.Vacancies.FirstOrDefault(e => e.VacancyID == id);
-        //    }
-        //}
-
-//userid int
-//name string
-//requiredskills array[string]
-//begindatetime string
-//enddatetime string
-//description string
-//job_type string
-
-        public void CreateVacancy(int userID, string name, string[] requiredSkills, string beginDate, string endDate, string description, string jobType)
+        // GET: api/Vacancy
+        public IEnumerable<string> Get()
         {
-            //return value;
-            //Employer userTest = new Employer(1, 1, "name", "test@hotmail.com", "password", 1, new List<SkillType>() { new SkillType(1, "programmer") });
-            //Vacancy Vacancy = new Vacancy(userTest, "We zoeken naar programmeur", 1, new List<SkillType>() { new SkillType(1, "programmer") }, "Een geervaarde programmeur", new DateTime(2018, 11, 1), new DateTime(2018, 11, 11), 5);
-            //Vacancy.AddVacancy(Vacancy);
-           // Employer userTest = new Employer(1, 1, "name", "test@hotmail.com", "password", 1, new List<SkillType>() { new SkillType(1, "programmer") });
-            Vacancy Vacancy = new Vacancy(userID, name, 1, new List<SkillType>(), description, beginDate, endDate, 1);
-            Vacancy.AddVacancy(Vacancy);
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(@"Server=tcp:cgi-matchup.database.windows.net,1433;Initial Catalog=MatchUp;Persist Security Info=False;User ID=cgi;Password=Fontys12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+                {
+                    conn.Open();
+                }
+                return new string[] { "database connection works!" };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message, "Invalid Connection String");
+                return new string[] { "database connection failed!" };
+            }           
         }
 
-        // GET api/values
-        //public IEnumerable<string> Get()
+        [Route("api/vacancy/GetVacancyList")]
+        [HttpGet]
+        public ArrayList GetVacancyList()
+        {
+            return Vacancy.GetListVacancy();
+        }
+
+        [Route("api/vacancy/GetAcceptedUserList")]
+        [HttpGet]
+        public ArrayList GetAcceptedUserList()
+        {
+            return Vacancy.GetListAcceptedUser();
+        }
+
+        // POST: api/Vacancy
+        [Route("api/vacancy/add")]
+        [HttpPost]
+        public HttpResponseMessage AddVacancy([FromBody]VacancyAPI vacancy)
+        {
+            HttpResponseMessage message = new HttpResponseMessage();
+            if (vacancy == null)
+            {
+                message.Content = new StringContent(VacancyAPI.AddVacancy(vacancy));
+            }
+            else
+            {
+                message.Content = new StringContent("object is null, please check parameters");
+                message.ReasonPhrase = "check the json format or the right parameters";
+            }
+
+            return message;
+        }
+
+        [Route("api/vacancy/addaccepteduser")]
+        [HttpPost]
+        public HttpResponseMessage AddAcceptedUser([FromBody]AcceptedUser user)
+        {
+            if (Vacancy.AddAcceptedUser(user))
+            {
+                return new HttpResponseMessage(HttpStatusCode.Created);
+            }
+            else
+            {
+                return new HttpResponseMessage(HttpStatusCode.Conflict);
+            }
+        }
+
+        //[HttpPost]
+        //public void AddAcceptedUser([FromBody]int id)
         //{
-
-
-        //    return new string[] { "value1", "value2" };
-
+        //    string kek = "success";
         //}
 
-        //// GET api/values/5
-        //public int Get(int value)
-        //{
-        //    return value;
-        //}
 
-        //public void CreateVacancy(int value)
-        //{
-        //    //return value;
-        //}
+        // PUT: api/Vacancy/5
+        public void Put(int id, [FromBody]string value)
+        {
+        }
 
-        //// POST api/values
-        //public void Post([FromBody]string value)
-        //{
-        //    Employer userTest = new Employer(1, 1, "name", "test@hotmail.com", "password", 1, new List<SkillType>() { new SkillType(1, "programmer") });
-        //    Vacancy Vacancy = new Vacancy(userTest, "We zoeken naar programmeur", 1, new List<SkillType>() { new SkillType(1, "programmer") }, "Een geervaarde programmeur", new DateTime(2018, 11, 1), new DateTime(2018, 11, 11), 5);
-        //    Vacancy.AddVacancy(Vacancy);
-        //}
-
-
-        //// PUT api/values/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-
-        //// DELETE api/values/5
-        //public void Delete(int id)
-        //{
-        //}
+        // DELETE: api/Vacancy/5
+        public void Delete(int id)
+        {
+        }
     }
 }

@@ -2,37 +2,40 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using cgiAPI.Models;
 
-namespace cgiAPI.Controllers
+namespace cgiAPI.Models
 {
-    public abstract class User
+    public class User
     {
-        public int UserID { get; protected set; }
-        public string UserType { get; protected set; }
-        public Branch Branch { get; set; }
-        public string Name { get; protected set; }
-        public string Email { get; protected set; }
+        public int UserID { get; set; }
+        public int UserTypeID { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
         public string Password { get; protected set; }
         public DateTime DateOfBirth { get; set; }
         public string PhoneNumber { get; set; }
-        public float HourlyWage { get; set; }
-        public Adress Address { get; set; }
-        public Job_Type Job_Type { get; protected set; }
-        public List<SkillType> ListCompetences { get; protected set; }
-        //protected List<Availability> Availability { get; set; }
-        public List<Availability> Availability  { get; set; }
+        public Address Address { get; set; }
+        public Job_Type Job { get; set; }
+        public decimal Hourly_wage { get; set; }
+        public List<Skill> SkillList { get; set; }
+        public Branch Branch { get; set; }
+        public List<Availability> AvailabilityList { get; set; }
 
-        public User(int userID, string userType, string name, string email, string password, Job_Type job_type, List<SkillType> listCompetences, List<Availability> availability)
+        public User(int userID, int userTypeID, string name, string email, string password, DateTime dateOfBirth, string phoneNumber, Address address, Job_Type job, decimal hourly_wage, List<Skill> skillList, Branch branch, List<Availability> availabilityList)
         {
             UserID = userID;
             UserTypeID = userTypeID;
             Name = name;
             Email = email;
             Password = password;
-            Job_Type = job_type;
-            ListCompetences = listCompetences;
-            Availability = availability;
+            DateOfBirth = dateOfBirth;
+            PhoneNumber = phoneNumber;
+            Address = address;
+            Job = job;
+            Hourly_wage = hourly_wage;
+            SkillList = skillList;
+            Branch = branch;
+            AvailabilityList = availabilityList;
         }
     }
 }
