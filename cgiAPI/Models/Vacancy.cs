@@ -21,13 +21,13 @@ namespace cgiAPI.Models
         public DateTime Date_begin { get; set; }
         public DateTime Date_end { get; set; }
         public int MinExperience { get; set; }
-        public List<AcceptedUser> AcceptedUserList { get; set; }
+        public List<RespondVacancyUser> RespondVacancyUserList { get; set; }
         static private string connectionString = @"Server=cgi-matchup.database.windows.net;Database=MatchUp;User ID = cgi; Password=Fontys12345;Trusted_Connection=False;";
         //static private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mike\OneDrive\school\mike_backend\CGIdatabase.mdf;Integrated Security=True;Connect Timeout=30";
         static private SqlConnection conn = new SqlConnection(connectionString);
 
         [JsonConstructor]
-        public Vacancy(int vacancyID, int userID, string name, Job_Type job, List<Skill> skillList, string description, DateTime date_begin, DateTime date_end, int minExperience, List<AcceptedUser> acceptedUserList)
+        public Vacancy(int vacancyID, int userID, string name, Job_Type job, List<Skill> skillList, string description, DateTime date_begin, DateTime date_end, int minExperience, List<RespondVacancyUser> RespondVacancyUserList)
         {
             VacancyID = vacancyID;
             UserID = userID;
@@ -38,7 +38,7 @@ namespace cgiAPI.Models
             Date_begin = date_begin;
             Date_end = date_end;
             MinExperience = minExperience;
-            AcceptedUserList = acceptedUserList;
+            RespondVacancyUserList = RespondVacancyUserList;
         }
         public Vacancy(string name)
         {
@@ -56,11 +56,11 @@ namespace cgiAPI.Models
             Date_begin = date_begin;
             Date_end = date_end;
             MinExperience = minExperience;
-            AcceptedUserList = new List<AcceptedUser>();
+            RespondVacancyUserList = new List<RespondVacancyUser>();
         }
 
 
-        public static bool AddAcceptedUser(AcceptedUser user)
+        public static bool AddRespondVacancyUser(RespondVacancyUser user)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -81,9 +81,9 @@ namespace cgiAPI.Models
                 {
                     command.Parameters.AddWithValue("@VacancyID", user.VacancyID);
                     command.Parameters.AddWithValue("@UserID", user.UserID);
-                    command.Parameters.AddWithValue("@Accepted", user.Accepted);
+                    command.Parameters.AddWithValue("@Accepted", user.StatusID);
                     command.CommandText =
-                        "INSERT INTO AcceptedUser (UserID, VacancyID, Accepted) " + "VALUES (@VacancyID, @UserID, @Accepted)";
+                        "INSERT INTO RespondVacancyUser (UserID, VacancyID, Accepted) " + "VALUES (@VacancyID, @UserID, @Accepted)";
                     command.ExecuteNonQuery();
 
                     // Attempt to commit the transaction.
@@ -114,9 +114,9 @@ namespace cgiAPI.Models
             }
         }
 
-        public static ArrayList GetListAcceptedUser()
+        public static ArrayList GetListRespondVacancyUser()
         {
-            ArrayList acceptedUserList = new ArrayList();
+            ArrayList RespondVacancyUserList = new ArrayList();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -135,15 +135,15 @@ namespace cgiAPI.Models
 
                 try
                 {
-                    command.CommandText = "SELECT * FROM AcceptedUser";
+                    command.CommandText = "SELECT * FROM RespondVacancyUser";
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.HasRows)
                         {
                             while (reader.Read())
                             {
-                                AcceptedUser acceptedUser = new AcceptedUser(reader.GetInt32(0), reader.GetInt32(1), reader.GetBoolean(2));
-                                acceptedUserList.Add(acceptedUser);
+                                RespondVacancyUser RespondVacancyUser = new RespondVacancyUser(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2));
+                                RespondVacancyUserList.Add(RespondVacancyUser);
                             }
                         }
                     }
@@ -152,7 +152,7 @@ namespace cgiAPI.Models
 
                     Console.WriteLine("Both records are written to database.");
 
-                    return acceptedUserList;
+                    return RespondVacancyUserList;
 
                 }
                 catch (Exception ex)
@@ -173,7 +173,7 @@ namespace cgiAPI.Models
                         Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
                         Console.WriteLine("  Message: {0}", ex2.Message);
                     }
-                    return acceptedUserList;
+                    return RespondVacancyUserList;
                 }
             }
         }
@@ -208,7 +208,7 @@ namespace cgiAPI.Models
                         {
                             while (reader.Read())
                             {
-                                Vacancy vacancy = new Vacancy(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(7), new Job_Type(reader.GetInt32(2), "null"), new List<Skill>(), reader.GetString(5), reader.GetDateTime(3), reader.GetDateTime(4), reader.GetInt32(6), new List<AcceptedUser>());
+                                Vacancy vacancy = new Vacancy(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(7), new Job_Type(reader.GetInt32(2), "null"), new List<Skill>(), reader.GetString(5), reader.GetDateTime(3), reader.GetDateTime(4), reader.GetInt32(6), new List<RespondVacancyUser>());
                                 vacancyList.Add(vacancy);
                             }
                         }
@@ -248,7 +248,7 @@ namespace cgiAPI.Models
                             command.Parameters.RemoveAt("@Job_TypeID");
                         }
 
-                        command.CommandText = "SELECT * FROM dbo.AcceptedUser WHERE VacancyID = @VacancyID";
+                        command.CommandText = "SELECT * FROM dbo.RespondVacancyUser WHERE VacancyID = @VacancyID";
                         command.Parameters.AddWithValue("@VacancyID", v.VacancyID);
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
@@ -256,7 +256,7 @@ namespace cgiAPI.Models
                             {
                                 while (reader.Read())
                                 {
-                                    v.AcceptedUserList.Add(new AcceptedUser(reader.GetInt32(0), reader.GetInt32(1), reader.GetBoolean(2)));
+                                    v.RespondVacancyUserList.Add(new RespondVacancyUser(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2)));
                                 }
                             }
                             command.Parameters.RemoveAt("@VacancyID");

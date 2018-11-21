@@ -1,24 +1,15 @@
-{
-"userID":"1",
-"name":"programmeurs graag",
-"job":
-{
-"job_typeID":"1",
-"job_name":"null"
-},
-"skillList":
-[{
-"skillTypeID":"1",
-"skillTypeName":"C#"
-},
-{
-"skillTypeID":"2",
-"skillTypeName":"Java"
-}],	
-"description":"een goeie baan",
-"date_begin":"2018-03-02 10:30:00.000",
-"date_end":"2018-10-11 10:50:00.000",
-"minExperience":"1"
+{  
+   "name":"A job",
+   "jobType":"3",
+   "description":"Hello job",
+   "requiredSkills":[  
+      "3",
+      "5"
+   ],
+   "minimalExperience":"12",
+   "beginDateTime":"2018-11-14 23:00:00.000 ",
+   "endDateTime":"2018-11-14 23:00:00.000 ",
+   "userID":"1"
 }
 
 INSERT INTO Requested_Skill (Skill_ID, VacancyID) SELECT '1', VacancyID FROM Vacancy WHERE UserID='1' AND Job_TypeID='1' AND Date_begin='12-12-2012 00:00:00' AND Date_end='12-1-2012 00:00:00'

@@ -1,46 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using cgiAPI.Models;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http.Cors;
 
-namespace cgiAPI.Models
+namespace DAL
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class VacancyAPI
+    public class VacancyDAL
     {
-        public int vacancyID { get; set; }
-        public int userID { get; set; }
-        public string name { get; set; }
-        public int jobType { get; set; }
-        public List<int> requiredSkills { get; set; }
-        public string description { get; set; }
-        public DateTime beginDateTime { get; set; }
-        public DateTime endDateTime { get; set; }
-        public int minimalExperience { get; set; }
-        static private string connectionString = @"Server=cgi-matchup.database.windows.net;Database=MatchUp;User ID = cgi; Password=Fontys12345;Trusted_Connection=False;";
-        //static private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mike\OneDrive\school\mike_backend\CGIdatabase.mdf;Integrated Security=True;Connect Timeout=30";
-        static private SqlConnection conn = new SqlConnection(connectionString);
-
-        [JsonConstructor]
-        public VacancyAPI(int userID, string name, int jobType, List<int> requiredSkills, string description, DateTime beginDateTime, DateTime endDateTime, int minimalExperience)
-        {
-            this.userID = userID;
-            this.name = name;
-            this.jobType = jobType;
-            this.requiredSkills = requiredSkills;
-            this.description = description;
-            this.beginDateTime = beginDateTime;
-            this.endDateTime = endDateTime;
-            this.minimalExperience = minimalExperience;
-        }
-
         public static string AddVacancy(VacancyAPI Vacancy)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
                 connection.Open();
 
@@ -107,11 +76,11 @@ namespace cgiAPI.Models
         }
 
 
-        static public ArrayList GetListRespondVacancyUser(int userID, int vacancyID, int statusID)
+        public static ArrayList GetListAcceptedUser(int vacancyID, int statusID)
         {
-            ArrayList RespondVacancyUserList = new ArrayList();
+            ArrayList acceptedUserList = new ArrayList();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
                 connection.Open();
 
@@ -138,8 +107,8 @@ namespace cgiAPI.Models
                         {
                             while (reader.Read())
                             {
-                                RespondVacancyUser RespondVacancyUser = new RespondVacancyUser(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2));
-                                RespondVacancyUserList.Add(RespondVacancyUser);
+                                AcceptedUser acceptedUser = new AcceptedUser(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2));
+                                acceptedUserList.Add(acceptedUser);
                             }
                         }
                     }
@@ -148,7 +117,7 @@ namespace cgiAPI.Models
 
                     Console.WriteLine("Both records are written to database.");
 
-                    return RespondVacancyUserList;
+                    return acceptedUserList;
 
                 }
                 catch (Exception ex)
@@ -169,9 +138,10 @@ namespace cgiAPI.Models
                         Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
                         Console.WriteLine("  Message: {0}", ex2.Message);
                     }
-                    return RespondVacancyUserList;
+                    return acceptedUserList;
                 }
             }
         }
     }
+}
 }

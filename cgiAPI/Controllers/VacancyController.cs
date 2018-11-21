@@ -47,14 +47,34 @@ namespace cgiAPI.Controllers
             return Vacancy.GetListVacancy();
         }
 
-        [Route("api/vacancy/GetAcceptedUserList")]
+        [Route("api/vacancy/GetRespondVacancyUserList")]
         [HttpGet]
-        public ArrayList GetAcceptedUserList()
+        public ArrayList GetListRespondVacancyUser()
         {
-            return Vacancy.GetListAcceptedUser();
+            return Vacancy.GetListRespondVacancyUser();
         }
 
-        // POST: api/Vacancy
+        //Krijgt een lijst van gereageerde werknemers met het aangegeven VacancyID en StatusID
+        [Route("api/vacancy/GetRespondVacancyUser")]
+        [HttpGet]
+        public ArrayList GetRespondVacancyUserList(int userID, int vacancyID, int statusID)
+        {
+            Employer employer = new Employer();
+            employer = Employer.GetEmployer(userID);
+            return VacancyAPI.GetListRespondVacancyUser(employer.UserID, vacancyID, statusID);
+        }
+
+
+        [Route("api/vacancy/addtest")]
+        [HttpPost]
+        public IEnumerable<string> AddVacancyTest([FromBody]VacancyAPI vacancy, User user)
+        {
+            return new string[] { "database connection works!" };
+        }
+
+
+
+        //Voegt een vacature in de database met de class VacancyAPI
         [Route("api/vacancy/add")]
         [HttpPost]
         public HttpResponseMessage AddVacancy([FromBody]VacancyAPI vacancy)
@@ -73,11 +93,11 @@ namespace cgiAPI.Controllers
             return message;
         }
 
-        [Route("api/vacancy/addaccepteduser")]
+        [Route("api/vacancy/addRespondVacancyUser")]
         [HttpPost]
-        public HttpResponseMessage AddAcceptedUser([FromBody]AcceptedUser user)
+        public HttpResponseMessage AddRespondVacancyUser([FromBody]RespondVacancyUser user)
         {
-            if (Vacancy.AddAcceptedUser(user))
+            if (Vacancy.AddRespondVacancyUser(user))
             {
                 return new HttpResponseMessage(HttpStatusCode.Created);
             }
@@ -88,7 +108,7 @@ namespace cgiAPI.Controllers
         }
 
         //[HttpPost]
-        //public void AddAcceptedUser([FromBody]int id)
+        //public void AddRespondVacancyUser([FromBody]int id)
         //{
         //    string kek = "success";
         //}

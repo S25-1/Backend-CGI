@@ -6,25 +6,25 @@ using System.Web;
 
 namespace cgiAPI.Models
 {
-    public class AcceptedUser
+    public class RespondVacancyUser
     {
         public int UserID { get; set; }
         public int VacancyID { get; set; }
-        public bool Accepted { get; set; }
+        public int StatusID { get; set; }
 
         [JsonConstructor]
-        public AcceptedUser(int userID, int vacancyID)
+        public RespondVacancyUser(int userID, int vacancyID)
         {
             UserID = userID;
             VacancyID = vacancyID;
-            Accepted = false;
+            StatusID = 1;
         }
 
-        public AcceptedUser(int userID, int vacancyID, bool accepted)
+        public RespondVacancyUser(int userID, int vacancyID, int accepted)
         {
             UserID = userID;
             VacancyID = vacancyID;
-            Accepted = accepted;
+            StatusID = accepted;
         }
     }
 }
