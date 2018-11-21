@@ -15,7 +15,7 @@ namespace cgiAPI.Models
         //static private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mike\OneDrive\school\mike_backend\CGIdatabase.mdf;Integrated Security=True;Connect Timeout=30";
         static private SqlConnection conn = new SqlConnection(connectionString);
 
-        public Employer(int userID, string name, string email, string password, DateTime dateOfBirth, string phoneNumber, int userTypeID, decimal hourly_wage, Address address, Job_Type job, Branch branch, List<Skill> skillList, List<Availability> availabilityList) : base(userID, name, email, password, dateOfBirth, phoneNumber, hourly_wage, userTypeID, address, job, branch, skillList, availabilityList)
+        public Employer(int userID, string name, string email, string password, DateTime dateOfBirth, string phoneNumber, int userTypeID, decimal hourly_wage, Address address, Job_Type job, Branch branch, List<Skill> skillList, List<VacancyAPI> listVacancies) : base(userID, name, email, password, dateOfBirth, phoneNumber, hourly_wage, userTypeID, address, job, branch, skillList)
         {
             UserID = userID;
             Name = name;
@@ -29,10 +29,10 @@ namespace cgiAPI.Models
             Branch = branch;
             UserTypeID = userTypeID;
             SkillList = skillList;
-            AvailabilityList = availabilityList;
+            ListVacancies = listVacancies;
         }
 
-        public Employer() : base(0, "null", "null", "null", new DateTime(), "null",0 , 0, new Address(0), new Job_Type(0), new Branch(0), new List<Skill>(), new List<Availability>())
+        public Employer() : base(0, "null", "null", "null", new DateTime(), "null",0 , 0, new Address(0), new Job_Type(0), new Branch(0), new List<Skill>())
         {
 
         }
@@ -87,7 +87,32 @@ namespace cgiAPI.Models
                                                         new Branch(reader.GetInt32(17), reader.GetString(18),
                                                         new Address(reader.GetInt32(19), reader.GetString(20), reader.GetString(21),
                                                         reader.GetString(22), reader.GetString(23), reader.GetString(24),
-                                                        reader.GetString(25))), new List<Skill>(), new List<Availability>()
+                                                        reader.GetString(25))), new List<Skill>(), new List<VacancyAPI>()
+                                                       );
+                            }
+                            command.Parameters.RemoveAt("@UserID");
+                        }
+                    }
+
+                    //Get vacancy table
+                    command.Parameters.AddWithValue("@UserID", userID);
+
+                    command.CommandText = "SELECT * FROM (SELECT u.UserID,u.Name,u.Email,u.Password,u.Date_of_birth,u.Phone_number,u.UserTypeID,u.Hourly_wage,a.AddressID,a.City,a.Country,a.House_number,a.Postal_code,a.Province,a.Street_Name FROM [User] u, Address a WHERE u.AddressID = a.AddressID AND u.UserID = 1) as u, (SELECT j.Job_typeID, j.Job_name FROM [User] u, Job_Type j WHERE u.Job_TypeID = j.Job_typeID AND u.UserID = 1) as j ,(SELECT b.BranchID, b.Name, a.AddressID, a.City, a.Country, a.House_number, a.Postal_code,a.Province,a.Street_name FROM Branch b , Address a, [User] u WHERE b.AddressID = a.AddressID AND u.BranchID = b.BranchID AND u.UserID = 1) AS b ";
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                employer = new Employer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3),
+                                                        reader.GetDateTime(4), reader.GetString(5), reader.GetInt32(6),
+                                                        reader.GetDecimal(7), new Address(reader.GetInt32(8), reader.GetString(9),
+                                                        reader.GetString(10), reader.GetString(11), reader.GetString(12), reader.GetString(13),
+                                                        reader.GetString(14)), new Job_Type(reader.GetInt32(15), reader.GetString(16)),
+                                                        new Branch(reader.GetInt32(17), reader.GetString(18),
+                                                        new Address(reader.GetInt32(19), reader.GetString(20), reader.GetString(21),
+                                                        reader.GetString(22), reader.GetString(23), reader.GetString(24),
+                                                        reader.GetString(25))), new List<Skill>(), new List<VacancyAPI>()
                                                        );
                             }
                             command.Parameters.RemoveAt("@UserID");

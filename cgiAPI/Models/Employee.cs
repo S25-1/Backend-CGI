@@ -2,27 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using cgi.Controllers;
+using cgiAPI.Controllers;
 
 namespace cgiAPI.Models
 {
     public class Employee : User
     {
+        public List<Availability> AvailabilityList { get; set; }
+        public List<VacancyAPI> ListAppliedJobs { get; set; }
 
-        public List<JobOffer> ListAcceptedJob { get; private set; }
-
-
-        public Employee(int userID, string userType, string name, string email, string password, Job_Type job_type, List<SkillType> listCompetences, List<Availability> availability) : base(userID, userType, name, email, password, job_type, listCompetences, availability)
+        public Employee(int userID, string name, string email, string password, DateTime dateOfBirth, string phoneNumber, decimal hourly_wage, int userTypeID, Address address, Job_Type job, Branch branch, List<Skill> skillList, List<Availability> availabilityList, List<VacancyAPI> listAppliedJobs) : base(userID, name, email, password, dateOfBirth, phoneNumber, hourly_wage, userTypeID, address, job, branch, skillList)
         {
             UserID = userID;
-            UserType = userType;
             Name = name;
             Email = email;
             Password = password;
-            Job_Type = job_type;
-            ListCompetences = listCompetences;
-            Availability = availability;
-            ListAcceptedJob = new List<JobOffer>();
+            DateOfBirth = dateOfBirth;
+            PhoneNumber = phoneNumber;
+            Address = address;
+            Job = job;
+            Hourly_wage = hourly_wage;
+            Branch = branch;
+            UserTypeID = userTypeID;
+            SkillList = skillList;
+            AvailabilityList = availabilityList;
+            ListAppliedJobs = listAppliedJobs;
         }
     }
 }

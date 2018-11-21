@@ -15,5 +15,10 @@ namespace cgiAPI.Models
             Job_typeID = job_typeID;
             Job_name = job_name;
         }
+        public Job_Type(int job_typeID)
+        {
+            Job_typeID = job_typeID;
+            Job_name = "null";
+        }
     }
 }

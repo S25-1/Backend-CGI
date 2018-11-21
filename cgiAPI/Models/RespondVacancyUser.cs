@@ -20,11 +20,11 @@ namespace cgiAPI.Models
             StatusID = 1;
         }
 
-        public RespondVacancyUser(int userID, int vacancyID, int accepted)
+        public RespondVacancyUser(int userID, int vacancyID, int statusID)
         {
             UserID = userID;
             VacancyID = vacancyID;
-            StatusID = accepted;
+            StatusID = statusID;
         }
     }
 }

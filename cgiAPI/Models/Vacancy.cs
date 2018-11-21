@@ -27,7 +27,7 @@ namespace cgiAPI.Models
         static private SqlConnection conn = new SqlConnection(connectionString);
 
         [JsonConstructor]
-        public Vacancy(int vacancyID, int userID, string name, Job_Type job, List<Skill> skillList, string description, DateTime date_begin, DateTime date_end, int minExperience, List<RespondVacancyUser> RespondVacancyUserList)
+        public Vacancy(int vacancyID, int userID, string name, Job_Type job, List<Skill> skillList, string description, DateTime date_begin, DateTime date_end, int minExperience, List<RespondVacancyUser> respondVacancyUserList)
         {
             VacancyID = vacancyID;
             UserID = userID;
@@ -38,7 +38,7 @@ namespace cgiAPI.Models
             Date_begin = date_begin;
             Date_end = date_end;
             MinExperience = minExperience;
-            RespondVacancyUserList = RespondVacancyUserList;
+            RespondVacancyUserList = respondVacancyUserList;
         }
         public Vacancy(string name)
         {

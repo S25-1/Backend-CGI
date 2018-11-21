@@ -19,9 +19,8 @@ namespace cgiAPI.Models
         public decimal Hourly_wage { get; set; }
         public List<Skill> SkillList { get; set; }
         public Branch Branch { get; set; }
-        public List<Availability> AvailabilityList { get; set; }
 
-        public User(int userID, string name, string email, string password, DateTime dateOfBirth, string phoneNumber, decimal hourly_wage, int userTypeID, Address address, Job_Type job, Branch branch, List<Skill> skillList, List<Availability> availabilityList)
+        public User(int userID, string name, string email, string password, DateTime dateOfBirth, string phoneNumber, decimal hourly_wage, int userTypeID, Address address, Job_Type job, Branch branch, List<Skill> skillList)
         {
             UserID = userID;
             Name = name;
@@ -35,7 +34,6 @@ namespace cgiAPI.Models
             Branch = branch;
             UserTypeID = userTypeID;
             SkillList = skillList;
-            AvailabilityList = availabilityList;
         }
     }
 }

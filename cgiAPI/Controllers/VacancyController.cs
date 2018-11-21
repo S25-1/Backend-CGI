@@ -23,6 +23,13 @@ namespace cgiAPI.Controllers
         //}
 
         // GET: api/Vacancy
+
+        [Route("api/vacancy/test")]
+        [HttpGet]
+        public ArrayList test(int id)
+        {
+            return VacancyAPI.GetListRespondVacancyUser(id);
+        }
         public IEnumerable<string> Get()
         {
             try
@@ -44,7 +51,14 @@ namespace cgiAPI.Controllers
         [HttpGet]
         public ArrayList GetVacancyList()
         {
-            return Vacancy.GetListVacancy();
+            return VacancyAPI.GetListVacancy();
+        }
+
+        [Route("api/vacancy/GetVacancyList")]
+        [HttpGet]
+        public ArrayList GetVacancyList(int vacancyID)
+        {
+            return VacancyAPI.GetListVacancy(vacancyID);
         }
 
         [Route("api/vacancy/GetRespondVacancyUserList")]
@@ -64,9 +78,8 @@ namespace cgiAPI.Controllers
             return VacancyAPI.GetListRespondVacancyUser(employer.UserID, vacancyID, statusID);
         }
 
-
-        [Route("api/vacancy/addtest")]
-        [HttpPost]
+        [Route("api/vacancy/User")]
+        [HttpGet]
         public IEnumerable<string> AddVacancyTest([FromBody]VacancyAPI vacancy, User user)
         {
             return new string[] { "database connection works!" };
