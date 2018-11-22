@@ -85,15 +85,13 @@ namespace cgiAPI.Controllers
             return new string[] { "database connection works!" };
         }
 
-
-
         //Voegt een vacature in de database met de class VacancyAPI
         [Route("api/vacancy/add")]
         [HttpPost]
         public HttpResponseMessage AddVacancy([FromBody]VacancyAPI vacancy)
         {
             HttpResponseMessage message = new HttpResponseMessage();
-            if (vacancy == null)
+            if (vacancy != null)
             {
                 message.Content = new StringContent(VacancyAPI.AddVacancy(vacancy));
             }
@@ -127,7 +125,8 @@ namespace cgiAPI.Controllers
         //}
 
 
-        // PUT: api/Vacancy/5
+        [Route("api/vacancy/put")]
+        [HttpPost]
         public void Put(int id, [FromBody]string value)
         {
         }
