@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,12 +16,16 @@ namespace cgiAPI.Models
         public DateTime DateOfBirth { get; set; }
         public string PhoneNumber { get; set; }
         public Address Address { get; set; }
-        public Job_Type Job { get; set; }
+        public int JobType { get; set; }
         public decimal Hourly_wage { get; set; }
         public List<Skill> SkillList { get; set; }
         public Branch Branch { get; set; }
 
-        public User(int userID, string name, string email, string password, DateTime dateOfBirth, string phoneNumber, decimal hourly_wage, int userTypeID, Address address, Job_Type job, Branch branch, List<Skill> skillList)
+        static private string connectionString = @"Server=cgi-matchup.database.windows.net;Database=MatchUp;User ID = cgi; Password=Fontys12345;Trusted_Connection=False;";
+        //static private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mike\OneDrive\school\mike_backend\CGIdatabase.mdf;Integrated Security=True;Connect Timeout=30";
+        static private SqlConnection conn = new SqlConnection(connectionString);
+
+        public User(int userID, string name, string email, string password, DateTime dateOfBirth, string phoneNumber, decimal hourly_wage, int userTypeID, Address address, int job, Branch branch, List<Skill> skillList)
         {
             UserID = userID;
             Name = name;
@@ -29,11 +34,94 @@ namespace cgiAPI.Models
             DateOfBirth = dateOfBirth;
             PhoneNumber = phoneNumber;
             Address = address;
-            Job = job;
+            JobType = job;
             Hourly_wage = hourly_wage;
             Branch = branch;
             UserTypeID = userTypeID;
             SkillList = skillList;
+        }
+
+
+        public static string AddUser(Employee user)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+
+                // Start a local transaction.
+                transaction = connection.BeginTransaction("SampleTransaction");
+
+                // Must assign both transaction object and connection
+                // to Command object for a pending local transaction
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.Parameters.AddWithValue("@Country", user.Address.Country);
+                    command.Parameters.AddWithValue("@City", user.Address.City);
+                    command.Parameters.AddWithValue("@Street_name", user.Address.Street_name);
+                    command.Parameters.AddWithValue("@House_number", user.Address.House_number);
+                    command.Parameters.AddWithValue("@Postal_code", user.Address.Postal_code);
+
+                    command.CommandText =
+                        "INSERT INTO Address (Country, City, Street_name, House_number, Postal_code) " + "VALUES (@Country, @City, @Street_name, @House_number, @Postal_code)";
+                    command.ExecuteNonQuery();
+
+
+
+                    command.Parameters.AddWithValue("@Name", user.Name);
+                    command.Parameters.AddWithValue("@Email", user.Email);
+                    command.Parameters.AddWithValue("@Password", user.Password);
+                    command.Parameters.AddWithValue("@Date_of_birth", user.DateOfBirth);
+                    command.Parameters.AddWithValue("@Phone_number", user.PhoneNumber);
+                    command.Parameters.AddWithValue("@AddressID", user.Address.AddressID);
+                    command.Parameters.AddWithValue("@Job_TypeID", user.JobType);
+                    command.Parameters.AddWithValue("@Hourly_wage", user.Hourly_wage);
+
+                    command.CommandText =
+                        "INSERT INTO User (Name, Email, Password, Date_of_birth, Phone_number, AddressID, Job_TypeID, Hourly_wage) " + "VALUES (@Name, @Email, @Password, @Date_of_birth, @Phone_number, @AddressID, @Job_TypeID, @Hourly_wage)";
+                    command.ExecuteNonQuery();
+
+                    foreach (Skill SkillID in user.SkillList)
+                    {
+                        command.CommandText =
+                        "INSERT INTO User_Skill (Skill_ID, UserID) SELECT @Skill_ID, UserID FROM User WHERE UserID=@UserID AND SkillID=@Skill_ID AND Name=@Name AND Email=@Email AND Password=@Password AND Date_of_birth=@Date_of_birth AND Phone_number=@Phone_number AND Job_TypeID=@Job_TypeID AND Hourly_wage=@Hourly_wage";
+                        command.Parameters.AddWithValue("@Skill_ID", SkillID);
+                        command.ExecuteNonQuery();
+                        command.Parameters.RemoveAt("@Skill_ID");
+                    }
+
+                    // Attempt to commit the transaction.
+                    transaction.Commit();
+                    Console.WriteLine("Both records are written to database.");
+                    return "Record added to the database";
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    // Attempt to roll back the transaction.
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+                        // This catch block will handle any errors that may have occurred
+                        // on the server that would cause the rollback to fail, such as
+                        // a closed connection.
+                        Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+                        Console.WriteLine("  Message: {0}", ex2.Message);
+                    }
+                    return ex.Message;
+                }
+            }
+
         }
     }
 }
