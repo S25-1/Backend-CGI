@@ -12,7 +12,6 @@ namespace cgiAPI.Models
         public int VacancyID { get; set; }
         public int StatusID { get; set; }
 
-        [JsonConstructor]
         public RespondVacancyUser(int userID, int vacancyID)
         {
             UserID = userID;
@@ -20,6 +19,7 @@ namespace cgiAPI.Models
             StatusID = 1;
         }
 
+        [JsonConstructor]
         public RespondVacancyUser(int userID, int vacancyID, int statusID)
         {
             UserID = userID;

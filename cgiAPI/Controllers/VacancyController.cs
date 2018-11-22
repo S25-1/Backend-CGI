@@ -125,10 +125,11 @@ namespace cgiAPI.Controllers
         //}
 
 
-        [Route("api/vacancy/put")]
-        [HttpPost]
-        public void Put(int id, [FromBody]string value)
+        [Route("api/vacancy/update")]
+        [HttpPut]
+        public void Put([FromBody]RespondVacancyUser user)
         {
+            VacancyAPI.UpdateRespondVacancyUser(user);
         }
 
         // DELETE: api/Vacancy/5
