@@ -313,22 +313,26 @@ namespace cgiAPI.Models
                         }
 
                         v.RespondVacancyUserList = new List<RespondVacancyUser>();
-
-                        command.Parameters.AddWithValue("@VacancyID", vacancyID);
-
-                        command.CommandText = "SELECT * FROM dbo.AcceptedUser WHERE VacancyID = @VacancyID";
-                        
-                        using (SqlDataReader reader = command.ExecuteReader())
+                        //casting arraylist to class type
+                        foreach (RespondVacancyUser item in VacancyAPI.GetListRespondVacancyUser(vacancyID))
                         {
-                            if (reader.HasRows)
-                            {
-                                while (reader.Read())
-                                {
-                                    v.RespondVacancyUserList.Add(new RespondVacancyUser(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2)));
-                                }
-                            }
-                            command.Parameters.RemoveAt("@VacancyID");
+                            v.RespondVacancyUserList.Add(item);
                         }
+                        //command.Parameters.AddWithValue("@VacancyID", vacancyID);
+
+                        //command.CommandText = "SELECT * FROM dbo.AcceptedUser WHERE VacancyID = @VacancyID";
+                        
+                        //using (SqlDataReader reader = command.ExecuteReader())
+                        //{
+                        //    if (reader.HasRows)
+                        //    {
+                        //        while (reader.Read())
+                        //        {
+                        //            v.RespondVacancyUserList.Add(new RespondVacancyUser(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2)));
+                        //        }
+                        //    }
+                        //    command.Parameters.RemoveAt("@VacancyID");
+                        //}
                     }
 
 
