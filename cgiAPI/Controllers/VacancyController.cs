@@ -24,28 +24,22 @@ namespace cgiAPI.Controllers
 
         // GET: api/Vacancy
 
-        [Route("api/vacancy/test")]
-        [HttpGet]
-        public ArrayList test(int id)
-        {
-            return VacancyAPI.GetListRespondVacancyUser(id);
-        }
-        public IEnumerable<string> Get()
-        {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(@"Server=tcp:cgi-matchup.database.windows.net,1433;Initial Catalog=MatchUp;Persist Security Info=False;User ID=cgi;Password=Fontys12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
-                {
-                    conn.Open();
-                }
-                return new string[] { "database connection works!" };
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message, "Invalid Connection String");
-                return new string[] { "database connection failed!" };
-            }           
-        }
+        //public IEnumerable<string> Get()
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection conn = new SqlConnection(@"Server=tcp:cgi-matchup.database.windows.net,1433;Initial Catalog=MatchUp;Persist Security Info=False;User ID=cgi;Password=Fontys12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+        //        {
+        //            conn.Open();
+        //        }
+        //        return new string[] { "database connection works!" };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message, "Invalid Connection String");
+        //        return new string[] { "database connection failed!" };
+        //    }           
+        //}
 
         [Route("api/vacancy/GetVacancyList")]
         [HttpGet]
@@ -76,6 +70,13 @@ namespace cgiAPI.Controllers
             Employer employer = new Employer();
             employer = Employer.GetEmployer(userID);
             return VacancyAPI.GetListRespondVacancyUser(employer.UserID, vacancyID, statusID);
+        }
+
+        [Route("api/vacancy/GetRespondVacancyUser")]
+        [HttpGet]
+        public ArrayList GetRespondVacancyUserList(int vacancyID)
+        {
+            return VacancyAPI.GetListRespondVacancyUser(vacancyID);
         }
 
         [Route("api/vacancy/User")]
@@ -109,7 +110,7 @@ namespace cgiAPI.Controllers
         [HttpPost]
         public HttpResponseMessage AddRespondVacancyUser([FromBody]RespondVacancyUser user)
         {
-            if (Vacancy.AddRespondVacancyUser(user))
+            if (VacancyAPI.AddRespondVacancyUser(user))
             {
                 return new HttpResponseMessage(HttpStatusCode.Created);
             }
@@ -126,10 +127,22 @@ namespace cgiAPI.Controllers
         //}
 
 
-        [Route("api/vacancy/put")]
-        [HttpPost]
-        public void Put(int id, [FromBody]string value)
+        [Route("api/vacancy/update")]
+        [HttpPut]
+        public void Put([FromBody]RespondVacancyUser user)
         {
+            VacancyAPI.UpdateRespondVacancyUser(user);
+        }
+
+        [Route("api/vacancy/updatelist")]
+        [HttpPut]
+        public void Put([FromBody]List<RespondVacancyUser> userList)
+        {
+            //foreach (RespondVacancyUser item in user)
+            //{ 
+            //    Console.WriteLine(item.VacancyID);
+            //}
+            VacancyAPI.UpdateRespondVacancyUser(userList);
         }
 
         // DELETE: api/Vacancy/5

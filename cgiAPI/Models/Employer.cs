@@ -82,12 +82,12 @@ namespace cgiAPI.Models
                                 employer = new Employer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3),
                                                         reader.GetDateTime(4), reader.GetString(5), reader.GetInt32(6),
                                                         reader.GetDecimal(7), new Address(reader.GetInt32(8), reader.GetString(9),
-                                                        reader.GetString(10), reader.GetString(11), reader.GetString(12), reader.GetString(13),
-                                                        reader.GetString(14)), new Job_Type(reader.GetInt32(15), reader.GetString(16)),
-                                                        new Branch(reader.GetInt32(17), reader.GetString(18),
-                                                        new Address(reader.GetInt32(19), reader.GetString(20), reader.GetString(21),
-                                                        reader.GetString(22), reader.GetString(23), reader.GetString(24),
-                                                        reader.GetString(25))), new List<Skill>(), new List<VacancyAPI>()
+                                                        reader.GetString(10), reader.GetString(11), reader.GetString(12),
+                                                        reader.GetString(13)), new Job_Type(reader.GetInt32(14), reader.GetString(15)),
+                                                        new Branch(reader.GetInt32(16), reader.GetString(17),
+                                                        new Address(reader.GetInt32(18), reader.GetString(19), reader.GetString(20),
+                                                        reader.GetString(21), reader.GetString(22), reader.GetString(23))), 
+                                                        new List<Skill>(), new List<VacancyAPI>()
                                                        );
                             }
                             command.Parameters.RemoveAt("@UserID");
@@ -107,12 +107,12 @@ namespace cgiAPI.Models
                                 employer = new Employer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3),
                                                         reader.GetDateTime(4), reader.GetString(5), reader.GetInt32(6),
                                                         reader.GetDecimal(7), new Address(reader.GetInt32(8), reader.GetString(9),
-                                                        reader.GetString(10), reader.GetString(11), reader.GetString(12), reader.GetString(13),
-                                                        reader.GetString(14)), new Job_Type(reader.GetInt32(15), reader.GetString(16)),
-                                                        new Branch(reader.GetInt32(17), reader.GetString(18),
-                                                        new Address(reader.GetInt32(19), reader.GetString(20), reader.GetString(21),
-                                                        reader.GetString(22), reader.GetString(23), reader.GetString(24),
-                                                        reader.GetString(25))), new List<Skill>(), new List<VacancyAPI>()
+                                                        reader.GetString(10), reader.GetString(11), reader.GetString(12), reader.GetString(13)), 
+                                                        new Job_Type(reader.GetInt32(14), reader.GetString(15)),
+                                                        new Branch(reader.GetInt32(16), reader.GetString(17),
+                                                        new Address(reader.GetInt32(18), reader.GetString(19),
+                                                        reader.GetString(20), reader.GetString(21), reader.GetString(22),
+                                                        reader.GetString(23))), new List<Skill>(), new List<VacancyAPI>()
                                                        );
                             }
                             command.Parameters.RemoveAt("@UserID");

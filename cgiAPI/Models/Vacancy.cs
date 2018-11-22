@@ -59,6 +59,7 @@ namespace cgiAPI.Models
             RespondVacancyUserList = new List<RespondVacancyUser>();
         }
 
+        //Insert methods
 
         public static bool AddRespondVacancyUser(RespondVacancyUser user)
         {
@@ -83,7 +84,7 @@ namespace cgiAPI.Models
                     command.Parameters.AddWithValue("@UserID", user.UserID);
                     command.Parameters.AddWithValue("@Accepted", user.StatusID);
                     command.CommandText =
-                        "INSERT INTO RespondVacancyUser (UserID, VacancyID, Accepted) " + "VALUES (@VacancyID, @UserID, @Accepted)";
+                        "INSERT INTO RespondVacancyUser (UserID, VacancyID, StatusID) " + "VALUES (@VacancyID, @UserID, @Accepted)";
                     command.ExecuteNonQuery();
 
                     // Attempt to commit the transaction.
@@ -114,6 +115,117 @@ namespace cgiAPI.Models
             }
         }
 
+        //Update methods
+        public static bool UpdateRespondVacancyUser(RespondVacancyUser user)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+
+                // Start a local transaction.
+                transaction = connection.BeginTransaction("SampleTransaction");
+
+                // Must assign both transaction object and connection
+                // to Command object for a pending local transaction
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.Parameters.AddWithValue("@VacancyID", user.VacancyID);
+                    command.Parameters.AddWithValue("@UserID", user.UserID);
+                    command.Parameters.AddWithValue("@StatusID", user.StatusID);
+
+                    command.CommandText = "UPDATE AcceptedUser SET StatusID = StatusID WHERE VacancyID = VacancyID AND UserID = UserID";
+                    command.ExecuteNonQuery();
+
+                    // Attempt to commit the transaction.
+                    transaction.Commit();
+                    Console.WriteLine("Both records are written to database.");
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    // Attempt to roll back the transaction.
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+                        // This catch block will handle any errors that may have occurred
+                        // on the server that would cause the rollback to fail, such as
+                        // a closed connection.
+                        Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+                        Console.WriteLine("  Message: {0}", ex2.Message);
+                    }
+                    return false;
+                }
+            }
+        }
+
+        //public static bool UpdateRespondVacancyUser(List<RespondVacancyUser> user)
+        //{
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        connection.Open();
+
+        //        SqlCommand command = connection.CreateCommand();
+        //        SqlTransaction transaction;
+
+        //        // Start a local transaction.
+        //        transaction = connection.BeginTransaction("SampleTransaction");
+
+        //        // Must assign both transaction object and connection
+        //        // to Command object for a pending local transaction
+        //        command.Connection = connection;
+        //        command.Transaction = transaction;
+
+        //        try
+        //        {
+        //            command.Parameters.AddWithValue("@VacancyID", user.VacancyID);
+        //            command.Parameters.AddWithValue("@UserID", user.UserID);
+        //            command.Parameters.AddWithValue("@StatusID", user.StatusID);
+
+        //            command.CommandText = "UPDATE AcceptedUser SET StatusID = StatusID WHERE VacancyID = VacancyID AND UserID = UserID";
+        //            command.ExecuteNonQuery();
+
+        //            // Attempt to commit the transaction.
+        //            transaction.Commit();
+        //            Console.WriteLine("Both records are written to database.");
+        //            return true;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+        //            Console.WriteLine("  Message: {0}", ex.Message);
+
+        //            // Attempt to roll back the transaction.
+        //            try
+        //            {
+        //                transaction.Rollback();
+        //            }
+        //            catch (Exception ex2)
+        //            {
+        //                // This catch block will handle any errors that may have occurred
+        //                // on the server that would cause the rollback to fail, such as
+        //                // a closed connection.
+        //                Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+        //                Console.WriteLine("  Message: {0}", ex2.Message);
+        //            }
+        //            return false;
+        //        }
+        //    }
+        //}
+        //Delete methods
+
+        //Get methods
         public static ArrayList GetListRespondVacancyUser()
         {
             ArrayList RespondVacancyUserList = new ArrayList();
