@@ -144,9 +144,9 @@ namespace cgiAPI.Models
                 {
                     command.Parameters.AddWithValue("@VacancyID", user.VacancyID);
                     command.Parameters.AddWithValue("@UserID", user.UserID);
-                    command.Parameters.AddWithValue("@Accepted", user.StatusID);
+                    command.Parameters.AddWithValue("@StatusID", user.StatusID);
                     command.CommandText =
-                        "INSERT INTO RespondVacancyUser (UserID, VacancyID, Accepted) " + "VALUES (@VacancyID, @UserID, @Accepted)";
+                        "INSERT INTO AcceptedUser (UserID, VacancyID, StatusID) " + "VALUES (@UserID, @VacancyID, @StatusID)";
                     command.ExecuteNonQuery();
 
                     // Attempt to commit the transaction.
@@ -233,6 +233,64 @@ namespace cgiAPI.Models
             }
         }
 
+        static public bool UpdateRespondVacancyUser(List<RespondVacancyUser> userList)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+
+                // Start a local transaction.
+                transaction = connection.BeginTransaction("SampleTransaction");
+
+                // Must assign both transaction object and connection
+                // to Command object for a pending local transaction
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    foreach (RespondVacancyUser user in userList)
+                    {
+                        command.Parameters.AddWithValue("@VacancyID", user.VacancyID);
+                        command.Parameters.AddWithValue("@UserID", user.UserID);
+                        command.Parameters.AddWithValue("@StatusID", user.StatusID);
+                        command.CommandText = "UPDATE AcceptedUser SET StatusID = @StatusID WHERE VacancyID = @VacancyID AND UserID = @UserID";
+                        command.ExecuteNonQuery();
+                        command.Parameters.RemoveAt("@VacancyID");
+                        command.Parameters.RemoveAt("@UserID");
+                        command.Parameters.RemoveAt("@StatusID");
+                    }
+                    // Attempt to commit the transaction.
+                    transaction.Commit();
+                    Console.WriteLine("Both records are written to database.");
+                    
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    // Attempt to roll back the transaction.
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+                        // This catch block will handle any errors that may have occurred
+                        // on the server that would cause the rollback to fail, such as
+                        // a closed connection.
+                        Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+                        Console.WriteLine("  Message: {0}", ex2.Message);
+                    }
+                    return false;
+                }
+            }
+        }
         //Get methods
         public static ArrayList GetListVacancy()
         {

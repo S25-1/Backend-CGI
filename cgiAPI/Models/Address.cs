@@ -15,11 +15,10 @@ namespace cgiAPI.Models
         public string Province { get; set; }
         public string Street_name { get; set; }
 
-        public Address(int addressID, string city, string country, string house_number, string postal_code, string province, string street_name)
+        public Address(int addressID, string city, string country, string house_number, string postal_code, string street_name)
         {
             AddressID = addressID;
             Country = country;
-            Province = province;
             City = city;
             Street_name = street_name;
             House_number = house_number;
@@ -29,7 +28,6 @@ namespace cgiAPI.Models
         {
             AddressID = addressID;
             Country = "null";
-            Province = "null";
             City = "null";
             Street_name = "null";
             House_number = "null";

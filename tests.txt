@@ -1,3 +1,5 @@
+
+vacancy json example
 {  
    "name":"A job",
    "jobType":"3",
@@ -11,6 +13,19 @@
    "endDateTime":"2018-11-14 23:00:00.000 ",
    "userID":"1"
 }
+
+accepteduser json example
+[{
+    "userID":"1",
+    "vacancyID":"1",
+    "statusID":"1"
+}, 
+{
+    "userID":"1",
+    "vacancyID":"2",
+    "statusID":"1"
+}]
+
 
 INSERT INTO Requested_Skill (Skill_ID, VacancyID) SELECT '1', VacancyID FROM Vacancy WHERE UserID='1' AND Job_TypeID='1' AND Date_begin='12-12-2012 00:00:00' AND Date_end='12-1-2012 00:00:00'
 INSERT INTO Requested_Skill (Skill_ID, VacancyID) SELECT '1', VacancyID FROM Vacancy 
