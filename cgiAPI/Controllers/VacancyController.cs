@@ -95,6 +95,7 @@ namespace cgiAPI.Controllers
             if (vacancy != null)
             {
                 message.Content = new StringContent(VacancyAPI.AddVacancy(vacancy));
+                VacancyAPI.AddVacancy(vacancy);
             }
             else
             {
