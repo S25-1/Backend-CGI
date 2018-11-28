@@ -29,6 +29,7 @@ namespace cgiAPI.Models
             House_number = house_number;
             Postal_code = postal_code;
         }
+        [JsonConstructor]
         public Address(string city, string country, string house_number, string postal_code, string street_name)
         {
             AddressID = -1;

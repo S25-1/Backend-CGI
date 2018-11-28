@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,7 @@ namespace cgiAPI.Models
         public int Job_typeID { get; set; }
         public string Job_name { get; set; }
 
+        [JsonConstructor]
         public Job_Type(int job_typeID, string job_name)
         {
             Job_typeID = job_typeID;

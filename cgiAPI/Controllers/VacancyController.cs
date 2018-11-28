@@ -15,6 +15,7 @@ namespace cgiAPI.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class VacancyController : ApiController
     {
+
         //[Route("api/vacancy/test")]
         //[HttpGet]
         //public IEnumerable<int> testfunctie()

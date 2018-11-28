@@ -43,20 +43,20 @@ namespace cgiAPI.Models
         }
 
         [JsonConstructor]
-        public User(Address address)
+        public User(string name, string email, string password, DateTime dateOfBirth, string phoneNumber, decimal hourly_wage, Address address, Job_Type job, int branchID, List<Skill> skillList)
         {
-            UserID = 0;
-            Name = "name";
-            Email = "email";
-            Password = "password";
-            DateOfBirth = new DateTime();
-            PhoneNumber = "00000000";
+            UserID = -1;
+            Name = name;
+            Email = email;
+            Password = password;
+            DateOfBirth = dateOfBirth;
+            PhoneNumber = phoneNumber;
             Address = address;
-            Job = new Job_Type(0,"kek");
-            Hourly_wage = 15;
-            Branch = new Branch(0);
-            UserTypeID = 1;
-            SkillList = new List<Skill>();
+            Job = job;
+            Hourly_wage = hourly_wage;
+            Branch = new Branch(branchID);
+            UserTypeID = -1;
+            SkillList = skillList;
         }
 
         public static void test(User user)
@@ -64,7 +64,7 @@ namespace cgiAPI.Models
             User kek = user;
         }
 
-        public static string AddUser(Employee user)
+        public static string AddUser(User user)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
