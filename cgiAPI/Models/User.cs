@@ -43,7 +43,7 @@ namespace cgiAPI.Models
         }
 
         [JsonConstructor]
-        public User(string name, string email, string password, DateTime dateOfBirth, string phoneNumber, decimal hourly_wage, Address address, Job_Type job, int branchID, List<Skill> skillList)
+        public User(string name, string email, string password, DateTime dateOfBirth, string phoneNumber, decimal hourly_wage, int userTypeID ,Address address, Job_Type job, int branchID, List<Skill> skillList)
         {
             UserID = -1;
             Name = name;
@@ -55,7 +55,7 @@ namespace cgiAPI.Models
             Job = job;
             Hourly_wage = hourly_wage;
             Branch = new Branch(branchID);
-            UserTypeID = -1;
+            UserTypeID = userTypeID;
             SkillList = skillList;
         }
 
@@ -93,27 +93,26 @@ namespace cgiAPI.Models
                         "INSERT INTO Address (Country, City, Street_name, House_number, Postal_code) " + "VALUES (@Country, @City, @Street_name, @House_number, @Postal_code)";
                     command.ExecuteNonQuery();
 
-
-
                     command.Parameters.AddWithValue("@Name", user.Name);
                     command.Parameters.AddWithValue("@Email", user.Email);
                     command.Parameters.AddWithValue("@Password", user.Password);
                     command.Parameters.AddWithValue("@Date_of_birth", user.DateOfBirth);
                     command.Parameters.AddWithValue("@Phone_number", user.PhoneNumber);
-                    
-                    command.Parameters.AddWithValue("@AddressID", user.Address.AddressID);
                     command.Parameters.AddWithValue("@Job_TypeID", user.Job.Job_typeID);
                     command.Parameters.AddWithValue("@Hourly_wage", user.Hourly_wage);
+                    command.Parameters.AddWithValue("@Branch_ID", user.Branch.BranchID);
+                    command.Parameters.AddWithValue("@UserTypeID", user.UserTypeID);
 
                     command.CommandText =
-                        "INSERT INTO User (Name, Email, Password, Date_of_birth, Phone_number, AddressID, Job_TypeID, Hourly_wage) " + "VALUES (@Name, @Email, @Password, @Date_of_birth, @Phone_number, @AddressID, @Job_TypeID, @Hourly_wage)";
+                        "INSERT INTO [User] (Name, Email, Password, Date_of_birth, Phone_number, AddressID, Job_TypeID, Hourly_wage, BranchID, UserTypeID) SELECT @Name, @Email, @Password, @Date_of_birth, @Phone_number, a.AddressID, @Job_TypeID, @Hourly_wage, @Branch_ID, @UserTypeID FROM (SELECT AddressID FROM Address a WHERE a.City = @City AND a.Country = @Country AND a.House_number = @House_number AND a.Postal_code = @Postal_code AND a.Street_name = @Street_name) as a ";
                     command.ExecuteNonQuery();
 
-                    foreach (Skill SkillID in user.SkillList)
+                    command.Parameters.AddWithValue("@UserID", user.UserID);
+                    foreach (Skill skill in user.SkillList)
                     {
                         command.CommandText =
-                        "INSERT INTO User_Skill (Skill_ID, UserID) SELECT @Skill_ID, UserID FROM User WHERE Name=@Name AND Email=@Email AND Password=@Password AND Date_of_birth=@Date_of_birth AND Phone_number=@Phone_number AND Job_TypeID=@Job_TypeID AND Hourly_wage=@Hourly_wage";
-                        command.Parameters.AddWithValue("@Skill_ID", SkillID.SkillTypeID);
+                        "INSERT INTO User_Skill (Skill_ID, UserID) SELECT @Skill_ID, u.UserID FROM [User] u WHERE u.Name = @Name AND u.Email = @Email AND u.Password = @Password AND u.Date_of_birth = @Date_of_birth AND u.Phone_number = @Phone_number AND u.Job_TypeID = @Job_TypeID AND u.Hourly_wage = @Hourly_wage AND u.BranchID = @Branch_ID AND u.UserTypeID = @UserTypeID";
+                        command.Parameters.AddWithValue("@Skill_ID", skill.SkillTypeID);
                         command.ExecuteNonQuery();
                         command.Parameters.RemoveAt("@Skill_ID");
                     }

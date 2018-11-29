@@ -65,6 +65,12 @@ accepteduser json example
 }
 
 {
+"name":"name",
+"email":"email",
+"password":"password",
+"dateOfBirth":"2018-11-14 23:00:00.000",
+"phoneNumber":"0000000000",
+"hourly_wage":"15.5",
 "address":
       { 
       "city":"1",
@@ -72,7 +78,22 @@ accepteduser json example
       "house_number":"3",
       "postal_code":"4",
       "street_name":"5"
-       }
+       },
+"job":
+{
+"job_typeID":"1",
+"job_name":"eenjob"
+},
+"branchID":"1",
+"skillList":
+      [{ 
+      "skillTypeID":"1",
+      "skillTypeName":"kek"
+       },
+      { 
+      "skillTypeID":"2",
+      "skillTypeName":"kek"
+       }],
 }
 
 

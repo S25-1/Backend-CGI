@@ -17,9 +17,9 @@ namespace cgiAPI.Controllers
     {
         [Route("api/employee/add")]
         [HttpPost]
-        public void AddEmployee([FromBody]User user)
+        public void AddUser([FromBody]User user)
         {
-
+            cgiAPI.Models.User.AddUser(user);
         }
     }
 }
