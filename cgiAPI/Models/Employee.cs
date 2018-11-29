@@ -28,6 +28,7 @@ namespace cgiAPI.Models
             AvailabilityList = availabilityList;
             ListAppliedJobs = listAppliedJobs;
         }
+
         public Employee(string name, string email, string password, DateTime dateOfBirth, string phoneNumber, decimal hourly_wage, int userTypeID, Address address, Job_Type job, Branch branch, List<Skill> skillList, List<Availability> availabilityList, List<VacancyAPI> listAppliedJobs) : base(-1, name, email, password, dateOfBirth, phoneNumber, hourly_wage, userTypeID, address, job, branch, skillList)
         {
             Name = name;

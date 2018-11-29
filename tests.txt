@@ -25,6 +25,76 @@ accepteduser json example
     "vacancyID":"2",
     "statusID":"1"
 }]
+//add user
+{  
+   "name":"naam",
+   "email":"3",
+   "password":"Hello job",
+   "address":[  
+      "country":"country",
+      "city":"city",
+      "street_name":"streetname",
+      "house_number":"000000000",
+      "postal_code":"1234AB"
+   ],
+   "job":[
+      "jobTypeId":"1",
+      "jobname":"oof"
+   ],
+   "hourly_wage":"12",
+   "branch":[
+      "branchId":"1",
+      "name":"oof",
+      "address":[{  
+      "country":"country",
+      "city":"city",
+      "street_name":"streetname",
+      "house_number":"000000000",
+      "postal_code":"1234AB"
+                       ],
+   "usertypeid":"1",
+    "skillList":[{
+      "skillTypeId":"1",
+      "skillTypeName":"ripped"
+   },
+{
+      "skillTypeId":"2",
+      "skillTypeName":"ripped"
+}
+]
+}
+
+{
+"name":"name",
+"email":"email",
+"password":"password",
+"dateOfBirth":"2018-11-14 23:00:00.000",
+"phoneNumber":"0000000000",
+"hourly_wage":"15.5",
+"address":
+      { 
+      "city":"1",
+      "country":"2",
+      "house_number":"3",
+      "postal_code":"4",
+      "street_name":"5"
+       },
+"job":
+{
+"job_typeID":"1",
+"job_name":"eenjob"
+},
+"branchID":"1",
+"skillList":
+      [{ 
+      "skillTypeID":"1",
+      "skillTypeName":"kek"
+       },
+      { 
+      "skillTypeID":"2",
+      "skillTypeName":"kek"
+       }],
+}
 
 
 INSERT INTO Requested_Skill (Skill_ID, VacancyID) SELECT '1', VacancyID FROM Vacancy WHERE UserID='1' AND Job_TypeID='1' AND Date_begin='12-12-2012 00:00:00' AND Date_end='12-1-2012 00:00:00'

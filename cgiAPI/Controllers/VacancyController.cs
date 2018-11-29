@@ -15,6 +15,7 @@ namespace cgiAPI.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class VacancyController : ApiController
     {
+
         //[Route("api/vacancy/test")]
         //[HttpGet]
         //public IEnumerable<int> testfunctie()
@@ -95,6 +96,7 @@ namespace cgiAPI.Controllers
             if (vacancy != null)
             {
                 message.Content = new StringContent(VacancyAPI.AddVacancy(vacancy));
+                VacancyAPI.AddVacancy(vacancy);
             }
             else
             {
