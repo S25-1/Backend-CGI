@@ -68,9 +68,10 @@ accepteduser json example
 "name":"name",
 "email":"email",
 "password":"password",
-"dateOfBirth":"2018-11-14 23:00:00.000",
+"dateOfBirth":"2018-11-14",
 "phoneNumber":"0000000000",
-"hourly_wage":"15.5",
+"hourly_wage":"15.50",
+"userTypeID":"1",
 "address":
       { 
       "city":"1",
@@ -95,6 +96,7 @@ accepteduser json example
       "skillTypeName":"kek"
        }],
 }
+
 
 
 INSERT INTO Requested_Skill (Skill_ID, VacancyID) SELECT '1', VacancyID FROM Vacancy WHERE UserID='1' AND Job_TypeID='1' AND Date_begin='12-12-2012 00:00:00' AND Date_end='12-1-2012 00:00:00'
